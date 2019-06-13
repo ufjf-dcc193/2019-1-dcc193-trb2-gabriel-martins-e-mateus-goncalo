@@ -10,27 +10,28 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 
+import br.ufjf.dcc193.trab02.Models.AreaDeConhecimento;
 import br.ufjf.dcc193.trab02.Models.Avaliador;
-import br.ufjf.dcc193.trab02.Persistence.AvaliadorRepository;
+import br.ufjf.dcc193.trab02.Persistence.AreaDeConhecimentoRepository;
 
 @Controller
-public class AvaliadorController {
+public class AreaDeConhecimentroController {
 
     @Autowired
-    private AvaliadorRepository repositoryAvaliador;
+    private AreaDeConhecimentoRepository repositoryConhecimentos;
 
-    @RequestMapping({"/lista-avaliadores"})
+    @RequestMapping({"/lista-conhecimentos"})
     public ModelAndView carregaAvaliadores (HttpSession session)
     {
         ModelAndView mv = new ModelAndView();
-        List<Avaliador> avaliadores = repositoryAvaliador.findAll();
+        List<AreaDeConhecimento> conhecimentos = repositoryConhecimentos.findAll();
         if (session.getAttribute("usuarioLogado") != null)
         {   
             Avaliador avaliador = (Avaliador) session.getAttribute("usuarioLogado");
             if (avaliador.getEmail().equals("admin"))
             {
-                mv.addObject("avaliadores", avaliadores);
-                mv.setViewName("lista-avaliadores");
+                mv.addObject("conhecimentos", conhecimentos);
+                mv.setViewName("lista-areasconhecimento");
             }
             else
             {
@@ -47,23 +48,24 @@ public class AvaliadorController {
         return mv;
     }
 
-    @RequestMapping(value = {"/cadastro-avaliador"}, method = RequestMethod.GET)
+    @RequestMapping(value = {"/cadastro-conhecimento"}, method = RequestMethod.GET)
     public ModelAndView carregaCadastro (HttpSession session)
     {
         ModelAndView mv = new ModelAndView();
         Avaliador avaliadorCarregar = new Avaliador();
+        AreaDeConhecimento conhecimento = new AreaDeConhecimento();
         if (session.getAttribute("usuarioLogado") != null)
         {   
             Avaliador avaliador = (Avaliador) session.getAttribute("usuarioLogado");
             if (avaliador.getEmail().equals("admin"))
             {
-                mv.addObject("avaliador", avaliadorCarregar);
-                mv.setViewName("cadastro-avaliador");
+                mv.addObject("conhecimento", conhecimento);
+                mv.setViewName("cadastro-conhecimento");
             }
             else
             {
                 mv.addObject("avaliador", avaliador);
-                mv.setViewName("redirect:principal-avaliador");
+                mv.setViewName("redirect:principal-adm");
             }
         }
         else
@@ -74,22 +76,22 @@ public class AvaliadorController {
         return mv;
     }
 
-    @RequestMapping(value = {"/cadastro-avaliador"}, method = RequestMethod.POST)
-    public ModelAndView realizaCadastro (Avaliador avaliador, HttpSession session)
+    @RequestMapping(value = {"/cadastro-conhecimento"}, method = RequestMethod.POST)
+    public ModelAndView realizaCadastro (AreaDeConhecimento conhecimento, HttpSession session)
     {
         ModelAndView mv = new ModelAndView();
-        Avaliador av = repositoryAvaliador.findByEmail(avaliador.getEmail());
-        if (av == null)
+        AreaDeConhecimento area = repositoryConhecimentos.findByNome(conhecimento.getNome());
+        if (area == null)
         {
-            repositoryAvaliador.save(avaliador);
-            mv.setViewName("redirect:lista-avaliadores");
+            repositoryConhecimentos.save(conhecimento);
+            mv.setViewName("redirect:lista-conhecimentos");
         }
         else
         {
-            mv.addObject("avaliador", avaliador);
-            mv.setViewName("redirect:cadastro-avaliador");
+            mv.addObject("conhecimento", area);
+            mv.setViewName("redirect:cadastro-conhecimento");
         }
-        return mv;
+        return mv; 
     }
         
 }
