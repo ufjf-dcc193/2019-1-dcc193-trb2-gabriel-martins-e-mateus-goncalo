@@ -69,5 +69,16 @@ public class LoginController {
         }
         return mv;
     }
+
+    @RequestMapping(value = {"/logout"}, method = RequestMethod.GET)
+    public ModelAndView realizaLogout (HttpSession session)
+    {
+        ModelAndView mv = new ModelAndView();
+        session.setAttribute("usuarioLogado", null);
+        Avaliador avaliador = new Avaliador();
+        mv.addObject("avaliador", avaliador);
+        mv.setViewName("redirect:index");
+        return mv;
+    }
         
 }
