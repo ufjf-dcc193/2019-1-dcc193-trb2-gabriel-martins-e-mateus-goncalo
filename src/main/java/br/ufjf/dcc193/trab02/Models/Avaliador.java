@@ -1,9 +1,20 @@
 package br.ufjf.dcc193.trab02.Models;
 
+import java.util.Set;
+
+import javax.persistence.CascadeType;
+import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
+import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
+import javax.persistence.JoinColumn;
 
+@Entity
 public class Avaliador {
     
     @Id
@@ -12,6 +23,17 @@ public class Avaliador {
     private String nome;
     private String email;
     private String chave;
+
+    @ManyToMany
+    @JoinTable(
+      name = "avaliador_conhecimento", 
+      joinColumns = @JoinColumn(name = "avaliador_id"), 
+      inverseJoinColumns = @JoinColumn(name = "areaconhecimento_id"))
+    private Set<AreaDeConhecimento> areasDeConhecimento;
+
+    @OneToOne(fetch = FetchType.LAZY)
+    @JoinColumn
+    private Avaliador revisor;
 
     public Avaliador(Long id, String nome, String email, String chave) {
         this.id = id;
