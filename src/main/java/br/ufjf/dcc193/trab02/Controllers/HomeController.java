@@ -10,13 +10,13 @@ import br.ufjf.dcc193.trab02.Models.Avaliador;
 @Controller
 public class HomeController {
 
-    @RequestMapping({"", "/index"})
+    @RequestMapping({"", "/index", "/principal-adm", "/principal-avaliador"})
     public String index (HttpSession session)
     {
         if (session.getAttribute("usuarioLogado") != null)
         {   
             Avaliador avaliador = (Avaliador) session.getAttribute("usuarioLogado");
-            if (avaliador.getEmail() == "admin")
+            if (avaliador.getEmail().equals("admin"))
             {
                 return "principal-adm";
             }

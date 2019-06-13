@@ -22,16 +22,11 @@
         <a class="p-2 text-dark" href="/index">Home</a>
         <a class="p-2 text-dark" href="/sobre">Sobre</a>
       </nav>
-      <a class="btn btn-outline-primary" href="/login">Logout</a>
+      <a class="btn btn-outline-primary" href="/login">Login</a>
     </div>
 
     <div class="pricing-header px-3 py-3 pt-md-5 pb-md-4 mx-auto text-center">
-      <h1 class="display-4">Sistema de gestão para avaliação de trabalhos</h1>
-      <p class="lead">
-        Uma instituição de pesquisa deseja que os trabalhos submetidos sejam avaliados por pares de forma mais 
-        automatizada: Cada avaliador recebe um código de acesso e é cadastrado em um conjunto de áreas de conhecimento. 
-        Depois uma lista de trabalhos a avaliar lhe é sugerida automaticamente.
-      </p>
+      <h1 class="display-4">Realize seu login</h1>
     </div>
 
     <div class="container">
@@ -41,26 +36,14 @@
             <h4 class="my-0 font-weight-normal">Login</h4>
           </div>
           <div class="card-body">
-            <h1 class="card-title pricing-card-title">Já avaliou hoje?</h1>
             <ul class="list-unstyled mt-3 mb-4">
-              <li>Já possui uma conta?</li>
-              <li>Não perca tempo.</li>
-              <li>Faça já o seu login!</li>
-              <li>Comece a avaliar agora mesmo.</li>
+                <form th:action="@{/login}" th:object="${avaliador}" method="POST">
+                    <label>Email: <input type="text" th:field="*{email}"/></label>
+                    <label>Senha: <input type="password" th:field="*{chave}"/></label>
+                    <input value="Enviar" type="submit"/>
+                    <input value="Limpar" type="reset"/>
+                </form>
             </ul>
-            <a href="/login"><button type="button" class="btn btn-lg btn-block btn-outline-primary">Login</button></a>
-          </div>
-        </div>
-        <div class="card mb-4 shadow-sm">
-          <div class="card-header">
-            <h4 class="my-0 font-weight-normal">Sobre</h4>
-          </div>
-          <div class="card-body">
-            <h1 class="card-title pricing-card-title">Deseja saber mais sobre a iniciativa?</h1>
-            <ul class="list-unstyled mt-3 mb-4">
-              <li>Confira tudo sobre!</li>
-            </ul>
-            <a href="/sobre"><button type="button" class="btn btn-lg btn-block btn-outline-primary">Sobre</button></a>
           </div>
         </div>
       </div>
