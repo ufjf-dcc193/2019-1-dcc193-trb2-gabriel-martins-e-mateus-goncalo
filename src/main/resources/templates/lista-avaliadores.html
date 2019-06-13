@@ -20,7 +20,7 @@
     <div class="d-flex flex-column flex-md-row align-items-center p-3 px-md-4 mb-3 bg-white border-bottom shadow-sm">
       <h5 class="my-0 mr-md-auto font-weight-normal">Sistema de avaliação</h5>
       <nav class="my-2 my-md-0 mr-md-3">
-        <a class="p-2 text-dark" href="/lista-avaliadores">Avaliadores</a>
+        <a class="p-2 text-dark" href="#">Avaliadores</a>
         <a class="p-2 text-dark" href="#">Trabalhos</a>
         <a class="p-2 text-dark" href="#">Revisões</a>
         <a class="p-2 text-dark" href="#">Áreas de conhecimento</a>
@@ -29,65 +29,32 @@
     </div>
 
     <div class="pricing-header px-3 py-3 pt-md-5 pb-md-4 mx-auto text-center">
-      <h1 class="display-4">Seja bem-vindo de volta, Administrador</h1>
+        <h1 class="display-4">Lista de avaliadores</h1>
     </div>
 
     <div class="container">
-      <div class="card-deck mb-3 text-center">
-        <div class="card mb-4 shadow-sm">
-          <div class="card-header">
-            <h4 class="my-0 font-weight-normal">Avaliadores</h4>
-          </div>
-          <div class="card-body">
-            <h1 class="card-title pricing-card-title">Administre-os</h1>
-            <ul class="list-unstyled mt-3 mb-4">
-                <li>Liste, crie, edite, exclua</li>           
-            </ul>
-            <a href="#"><button type="button" class="btn btn-lg btn-block btn-outline-primary">Avaliadores</button></a>
-          </div>
-        </div>
-        <div class="card mb-4 shadow-sm">
-          <div class="card-header">
-            <h4 class="my-0 font-weight-normal">Trabalhos</h4>
-          </div>
-          <div class="card-body">
-            <h1 class="card-title pricing-card-title">Administre-os</h1>
-            <ul class="list-unstyled mt-3 mb-4">
-                <li>Liste, crie, edite, exclua</li>
-            </ul>
-            <a href="#"><button type="button" class="btn btn-lg btn-block btn-outline-primary">Trabalhos</button></a>
-          </div>
-        </div>
-      </div>
-      <div class="container">
-          <div class="card-deck mb-3 text-center">
-            <div class="card mb-4 shadow-sm">
-              <div class="card-header">
-                <h4 class="my-0 font-weight-normal">Revisões</h4>
-              </div>
-              <div class="card-body">
-                <h1 class="card-title pricing-card-title">Admintre-as</h1>
-                <ul class="list-unstyled mt-3 mb-4">
-                    <li>Liste, crie, edite, exclua</li>
-                </ul>
-                <a href="/login"><button type="button" class="btn btn-lg btn-block btn-outline-primary">Revisões</button></a>
-              </div>
-            </div>
-            <div class="card mb-4 shadow-sm">
-              <div class="card-header">
-                <h4 class="my-0 font-weight-normal">Áreas de conhecimento</h4>
-              </div>
-              <div class="card-body">
-                <h1 class="card-title pricing-card-title">Adminitre-as</h1>
-                <ul class="list-unstyled mt-3 mb-4">
-                    <li>Liste, crie, edite, exclua</li>
-                </ul>
-                <a href="/sobre"><button type="button" class="btn btn-lg btn-block btn-outline-primary">Áreas de conhecimento</button></a>
-              </div>
-            </div>
-          </div>
+    <a href="/cadastro-avaliador"><button type="button" class="btn btn-lg btn-block btn-outline-primary">Cadastrar avaliador</button></a>
+    <table class="table table-dark">
+        <thead>
+          <tr>
+              <tr> 
+                  <th scope="col">Nome</th>
+                  <th scope="col">Email</th>
+                  <th scope="col">Opções</th>
+              </tr>
+          </tr>
+        </thead>
+        <tbody>
+            <tr th:each="av: ${avaliadores}" th:object=${av}>
+                <th th:text=*{nome}></th>
+                <th th:text=*{email}></th>
+                <th> Editar || Excluir </th>
+            </tr>
+        </tbody>
+      </table>
+    
 
-      <footer class="pt-4 my-md-5 pt-md-5 border-top">
+    <footer class="pt-4 my-md-5 pt-md-5 border-top">
         <div class="row">
           <div class="col-12 col-md">
             Gabriel Martins Santana <br/>
