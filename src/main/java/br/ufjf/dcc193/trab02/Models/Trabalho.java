@@ -4,13 +4,12 @@ import java.util.Set;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
-import javax.persistence.OneToOne;
 
 @Entity
 public class Trabalho {
@@ -22,13 +21,12 @@ public class Trabalho {
     private String descricaoTextual;
     private String url;
     
-    @OneToOne(mappedBy = "trabalho", cascade = CascadeType.ALL, 
-    fetch = FetchType.LAZY, optional = true)
-    private AreaDeConhecimento areaDeConhecimento;
-
-    @OneToOne(fetch = FetchType.LAZY)
+    @ManyToOne
     @JoinColumn
-    private Revisao trabalhoRevisao;
+    private AreaDeConhecimento trabalhoAreaDeConhecimento;
+
+    @OneToMany(mappedBy = "trabalhoRevisao", cascade = CascadeType.ALL)
+    private Set<Revisao> revisoes;
 
     public Trabalho(Long id, String titulo, String descricaoTextual, String url) {
         this.id = id;

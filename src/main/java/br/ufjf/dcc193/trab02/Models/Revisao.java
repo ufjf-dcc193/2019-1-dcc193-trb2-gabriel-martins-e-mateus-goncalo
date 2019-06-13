@@ -1,12 +1,12 @@
 package br.ufjf.dcc193.trab02.Models;
 
-import javax.persistence.CascadeType;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.OneToOne;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+
 
 @Entity
 public class Revisao {
@@ -15,14 +15,14 @@ public class Revisao {
     @GeneratedValue(strategy = GenerationType.SEQUENCE)
     private Long id;
     
-    @OneToOne(mappedBy = "revisor", cascade = CascadeType.ALL, 
-    fetch = FetchType.LAZY, optional = true)
+    @ManyToOne
+    @JoinColumn
     private Avaliador revisor;
 
-    @OneToOne(mappedBy = "trabalhoRevisao", cascade = CascadeType.ALL, 
-    fetch = FetchType.LAZY, optional = true)
+    @ManyToOne
+    @JoinColumn
     private Trabalho trabalhoRevisao;
-    
+
     private Integer nota;
     private String descricao;
     private Integer status;

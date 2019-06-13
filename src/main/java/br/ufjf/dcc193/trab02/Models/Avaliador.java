@@ -4,15 +4,12 @@ import java.util.Set;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
-import javax.persistence.OneToOne;
-import javax.persistence.JoinColumn;
 
 @Entity
 public class Avaliador {
@@ -26,14 +23,11 @@ public class Avaliador {
 
     @ManyToMany
     @JoinTable(
-      name = "avaliador_conhecimento", 
-      joinColumns = @JoinColumn(name = "avaliador_id"), 
-      inverseJoinColumns = @JoinColumn(name = "areaconhecimento_id"))
+      name = "avaliador_conhecimento")
     private Set<AreaDeConhecimento> areasDeConhecimento;
 
-    @OneToOne(fetch = FetchType.LAZY)
-    @JoinColumn
-    private Avaliador revisor;
+    @OneToMany(mappedBy = "revisor", cascade = CascadeType.ALL)
+    private Set<Revisao> revisoes;
 
     public Avaliador(Long id, String nome, String email, String chave) {
         this.id = id;
