@@ -39,8 +39,8 @@
           <div class="card-body">
             <ul class="list-unstyled mt-3 mb-4">
                 <form th:action="@{/login}" th:object="${avaliador}" method="POST">
-                    <label>Email: <input type="text" th:field="*{email}"/></label>
-                    <label>Senha: <input type="password" th:field="*{chave}"/></label>
+                    <label>Email: <input type="text" th:field="*{email}"/></label> <br/>
+                    <label>Senha: <input type="password" th:field="*{chave}"/></label> <br/>
                     <input value="Enviar" type="submit"/>
                     <input value="Limpar" type="reset"/>
                 </form>

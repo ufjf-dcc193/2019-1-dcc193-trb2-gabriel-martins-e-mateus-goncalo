@@ -16,6 +16,7 @@ public class MainApplication {
 		Avaliador avaliador = new Avaliador();
 		avaliador.setEmail("admin");
 		avaliador.setChave("admin");
+		avaliador.setNome("admin");
 		repAvaliador.save(avaliador);
 	}
 
