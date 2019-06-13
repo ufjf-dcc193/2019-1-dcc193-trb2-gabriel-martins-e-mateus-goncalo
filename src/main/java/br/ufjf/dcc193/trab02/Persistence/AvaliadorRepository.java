@@ -6,5 +6,5 @@ import br.ufjf.dcc193.trab02.Models.Avaliador;
 
 public interface AvaliadorRepository extends JpaRepository<Avaliador, Long>{
 
-    
+	Avaliador findByEmail(String email);
 }

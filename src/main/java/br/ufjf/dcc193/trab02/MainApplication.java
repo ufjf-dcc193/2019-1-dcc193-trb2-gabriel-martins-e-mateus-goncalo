@@ -17,7 +17,6 @@ public class MainApplication {
 		avaliador.setEmail("admin");
 		avaliador.setChave("admin");
 		repAvaliador.save(avaliador);
-		System.out.println(repAvaliador.findAll().size());
 	}
 
 }
