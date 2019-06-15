@@ -62,4 +62,28 @@ public class Trabalho {
         this.url = url;
     }
 
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public AreaDeConhecimento getTrabalhoAreaDeConhecimento() {
+        return trabalhoAreaDeConhecimento;
+    }
+
+    public void setTrabalhoAreaDeConhecimento(AreaDeConhecimento trabalhoAreaDeConhecimento) {
+        this.trabalhoAreaDeConhecimento = trabalhoAreaDeConhecimento;
+    }
+
+    public Set<Revisao> getRevisoes() {
+        return revisoes;
+    }
+
+    public void setRevisoes(Set<Revisao> revisoes) {
+        this.revisoes = revisoes;
+    }
+
 }
