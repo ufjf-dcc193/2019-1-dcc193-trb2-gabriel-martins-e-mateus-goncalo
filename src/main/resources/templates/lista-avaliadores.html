@@ -11,6 +11,7 @@
 
     <link rel="canonical" href="https://getbootstrap.com/docs/4.1/examples/pricing/" th:href="@{https://getbootstrap.com/docs/4.1/examples/pricing/}">
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
     <link href="../static/pricing.css" rel="stylesheet" th:href="@{pricing.css}">
   </head>
 
@@ -41,7 +42,9 @@
               <tr> 
                   <th scope="col">Nome</th>
                   <th scope="col">Email</th>
+                  <th scope="col">Áreas de conhecimento</th>
                   <th scope="col">Opções</th>
+                  <th scope="col">Detalhes</th>
               </tr>
           </tr>
         </thead>
@@ -49,8 +52,18 @@
             <tr th:each="avaliador: ${avaliadores}" th:object="${avaliador}">
                 <td th:text="*{nome}"></td>
                 <td th:text="*{email}"></td>
-                <td>Editar || Excluir</td>
-            </tr>
+                <td>
+                  <a th:href="@{/cadastrar-area-conhecimento-avaliador/{id}/(id=*{id})}"><i class="material-icons">&#xe148;</i></a>
+                  <a th:href="@{/listar-area-conhecimento-avaliador/{id}/(id=*{id})}"><i class="material-icons">&#xe88e;</i></a>
+                </td>
+                <td>
+                  <a th:href="@{/editar-avaliador/{id}/(id=*{id})}" ><i class="material-icons">&#xe254;</i></a>
+                  <a th:href="@{/excluir-avaliador/{id}/(id=*{id})}" ><i class="material-icons">&#xe872;</i></a>
+                </td>
+                <td>
+                  <a th:href="@{/detalhes-avaliador/{id}/(id=*{id})}" ><i class="material-icons">&#xe88e;</i></a>
+                </td>
+              </tr>
         </tbody>
       </table>
     
