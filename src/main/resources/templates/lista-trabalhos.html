@@ -54,7 +54,10 @@
                 <td th:text="*{descricaoTextual}"></td>
                 <td th:text="*{url}"></td>
                 <td th:text="*{trabalhoAreaDeConhecimento.nome}"></td>
-                <td>Editar || Excluir</td>
+                <td>
+                    <a th:href="@{/editar-trabalho/{id}/(id=*{id})}" ><i class="material-icons">&#xe254;</i></a>
+                    <a th:href="@{/excluir-trabalho/{id}/(id=*{id})}" ><i class="material-icons">&#xe872;</i></a>  
+                </td>
             </tr>
         </tbody>
       </table>

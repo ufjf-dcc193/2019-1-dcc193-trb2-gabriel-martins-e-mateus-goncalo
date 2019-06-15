@@ -30,26 +30,27 @@
     </div>
 
     <div class="pricing-header px-3 py-3 pt-md-5 pb-md-4 mx-auto text-center">
-      <h1 class="display-4">Cadastre um trabalho</h1>
+      <h1 class="display-4">Edição de um trabalho</h1>
     </div>
 
     <div class="container">
       <div class="card-deck mb-3 text-center">
         <div class="card mb-4 shadow-sm">
           <div class="card-header">
-            <h4 class="my-0 font-weight-normal">Cadastro de trabalhos</h4>
+            <h4 class="my-0 font-weight-normal">Editar trabalho</h4>
           </div>
           <div class="card-body">
             <ul class="list-unstyled mt-3 mb-4">
-                <form th:action="@{/cadastro-trabalho}" th:object="${trabalho}" method="POST">
+                <form th:action="@{/editar-trabalho}" th:object="${trabalho}" method="POST">
                     <label>Título: <input type="text" th:field="*{titulo}"/></label> <br/>
                     <label>Descricao: <input type="text" th:field="*{descricaoTextual}"/></label> <br/>
                     <label>URL: <input type="text" th:field="*{url}"/></label> <br/>
                     <label>Área de conhecimento: <select name="trabalhoAreaDeConhecimento">
                       <option th:each="conhecimento: ${conhecimentos}" 
                       th:object="${conhecimento}" th:value="*{id}"
-                      th:text="*{nome}"></option>
+                      th:text="*{nome}" th:selected="${trabalhoAreaDeConhecimento==conhecimento.nome}"></option>
                     </select></label>
+                    <input id="id" name="id" type="hidden" th:value="${id}" />
                     <input value="Enviar" type="submit"/>
                     <input value="Limpar" type="reset"/>
                 </form>
