@@ -4,12 +4,14 @@ import java.util.Set;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
+import javax.persistence.JoinColumn;
 
 @Entity
 public class Avaliador {
@@ -20,11 +22,6 @@ public class Avaliador {
     private String nome;
     private String email;
     private String chave;
-
-    @ManyToMany
-    @JoinTable(
-      name = "avaliador_conhecimento")
-    private Set<AreaDeConhecimento> areasDeConhecimento;
 
     @OneToMany(mappedBy = "revisor", cascade = CascadeType.ALL)
     private Set<Revisao> revisoes;
@@ -72,4 +69,11 @@ public class Avaliador {
         this.chave = chave;
     }
 
+	public Set<Revisao> getRevisoes() {
+		return revisoes;
+	}
+
+	public void setRevisoes(Set<Revisao> revisoes) {
+		this.revisoes = revisoes;
+	}
 }
