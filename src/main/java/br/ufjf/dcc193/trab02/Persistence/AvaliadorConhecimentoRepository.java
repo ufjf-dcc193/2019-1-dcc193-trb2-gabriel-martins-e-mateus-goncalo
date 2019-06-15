@@ -6,5 +6,4 @@ import br.ufjf.dcc193.trab02.Models.AvaliadorConhecimento;
 
 public interface AvaliadorConhecimentoRepository extends JpaRepository<AvaliadorConhecimento, Long>{
 
-    
 }

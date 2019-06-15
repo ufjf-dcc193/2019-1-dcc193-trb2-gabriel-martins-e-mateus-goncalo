@@ -14,13 +14,17 @@ import org.springframework.web.servlet.ModelAndView;
 
 import br.ufjf.dcc193.trab02.Models.AreaDeConhecimento;
 import br.ufjf.dcc193.trab02.Models.Avaliador;
+import br.ufjf.dcc193.trab02.Models.AvaliadorConhecimento;
 import br.ufjf.dcc193.trab02.Persistence.AreaDeConhecimentoRepository;
+import br.ufjf.dcc193.trab02.Persistence.AvaliadorConhecimentoRepository;
 
 @Controller
 public class AreaDeConhecimentroController {
 
     @Autowired
     private AreaDeConhecimentoRepository repositoryConhecimentos;
+    @Autowired
+    private AvaliadorConhecimentoRepository repositoryAvaliadorConhecimento;
 
     @RequestMapping({"/lista-conhecimentos"})
     public ModelAndView carregaAvaliadores (HttpSession session)
@@ -198,6 +202,13 @@ public class AreaDeConhecimentroController {
             if (avaliador.getEmail().equals("admin"))
             {
                 repositoryConhecimentos.deleteById(id);
+                List<AvaliadorConhecimento> avCo = repositoryAvaliadorConhecimento.findAll();
+                for (AvaliadorConhecimento var : avCo) {
+                    if (var.getConhecimento().equals(id))
+                    {
+                        repositoryAvaliadorConhecimento.deleteById(var.getId());
+                    }
+                }
                 mv.setViewName("redirect:/lista-conhecimentos");
             }
             else

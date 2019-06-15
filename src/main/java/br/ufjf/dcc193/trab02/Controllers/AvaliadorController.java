@@ -41,19 +41,19 @@ public class AvaliadorController {
             if (avaliador.getEmail().equals("admin"))
             {
                 mv.addObject("avaliadores", avaliadores);
-                mv.setViewName("lista-avaliadores");
+                mv.setViewName("/lista-avaliadores");
             }
             else
             {
                 mv.addObject("avaliador", avaliador);
-                mv.setViewName("redirect:principal-adm");
+                mv.setViewName("redirect:/principal-adm");
             }
         }
         else
         {
             Avaliador avaliadorCarregar = new Avaliador();
             mv.addObject("avaliador", avaliadorCarregar);
-            mv.setViewName("login");
+            mv.setViewName("/login");
         }
         return mv;
     }
@@ -69,18 +69,18 @@ public class AvaliadorController {
             if (avaliador.getEmail().equals("admin"))
             {
                 mv.addObject("avaliador", avaliadorCarregar);
-                mv.setViewName("cadastro-avaliador");
+                mv.setViewName("/cadastro-avaliador");
             }
             else
             {
                 mv.addObject("avaliador", avaliador);
-                mv.setViewName("redirect:principal-avaliador");
+                mv.setViewName("redirect:/principal-avaliador");
             }
         }
         else
         {
             mv.addObject("avaliador", avaliadorCarregar);
-            mv.setViewName("login");
+            mv.setViewName("/login");
         }
         return mv;
     }
@@ -90,15 +90,34 @@ public class AvaliadorController {
     {
         ModelAndView mv = new ModelAndView();
         Avaliador av = repositoryAvaliador.findByEmail(avaliador.getEmail());
-        if (av == null)
+        Avaliador avaliadorCarregar = new Avaliador();
+        if (session.getAttribute("usuarioLogado") != null)
         {
-            repositoryAvaliador.save(avaliador);
-            mv.setViewName("redirect:lista-avaliadores");
+            Avaliador avaliadorF = (Avaliador) session.getAttribute("usuarioLogado");
+            if (avaliadorF.getEmail().equals("admin"))
+            {        
+                if (av == null)
+                {
+                    repositoryAvaliador.save(avaliador);
+                    mv.setViewName("redirect:/lista-avaliadores");
+                }
+                else
+                {
+                    mv.addObject("avaliador", avaliador);
+                    mv.setViewName("redirect:/cadastro-avaliador");
+                }
+            }
+            else
+            {
+                mv.addObject("avaliador", avaliadorF);
+                mv.setViewName("redirect:/principal-avaliador");    
+            }
+            
         }
         else
         {
-            mv.addObject("avaliador", avaliador);
-            mv.setViewName("redirect:cadastro-avaliador");
+            mv.addObject("avaliador", avaliadorCarregar);
+            mv.setViewName("/login");
         }
         return mv;
     }
@@ -117,23 +136,22 @@ public class AvaliadorController {
                 for (AreaDeConhecimento var : conhecimentos) {
                     var.setNome(var.getId() + " - " + var.getNome());
                 }
-                AreaDeConhecimento conhecimento = new AreaDeConhecimento();
                 mv.addObject("conhecimentos", conhecimentos);
                 AreaDeConhecimento conhecimento2 = new AreaDeConhecimento();
                 mv.addObject("conhe", conhecimento2);
                 mv.addObject("id", id);
-                mv.setViewName("cadastro-area-conhecimento-avaliador");
+                mv.setViewName("/cadastro-area-conhecimento-avaliador");
             }
             else
             {
                 mv.addObject("avaliador", avaliador);
-                mv.setViewName("redirect:principal-avaliador");
+                mv.setViewName("redirect:/principal-avaliador");
             }
         }
         else
         {
             mv.addObject("avaliador", avaliadorCarregar);
-            mv.setViewName("login");
+            mv.setViewName("/login");
         }
         return mv;
     }
@@ -145,28 +163,45 @@ public class AvaliadorController {
         String [] areas = conhecimento.split(";");
         ModelAndView mv = new ModelAndView();
         Avaliador av = repositoryAvaliador.getOne(id);
-        if (av != null)
-        {
-            for(int i = 0; i < areas.length; i++)
+        if (session.getAttribute("usuarioLogado") != null)
+        {   
+            Avaliador avaliador = (Avaliador) session.getAttribute("usuarioLogado");
+            if (avaliador.getEmail().equals("admin"))
             {
-                AvaliadorConhecimento acFinal = new AvaliadorConhecimento();
-                acFinal.setAvaliador(av.getId());
-                acFinal.setConhecimento(Long.parseLong(areas[i]));
-                repositoryAC.save(acFinal);
-                System.out.println(acFinal.getId());
-                System.out.println(acFinal.getAvaliador());
-                System.out.println(acFinal.getConhecimento());    
+                if (av != null)
+                {
+                    for(int i = 0; i < areas.length; i++)
+                    {
+                        AvaliadorConhecimento acFinal = new AvaliadorConhecimento();
+                        acFinal.setAvaliador(av.getId());
+                        acFinal.setConhecimento(Long.parseLong(areas[i]));
+                        AreaDeConhecimento q = repositoryConhecimentos.getOne(Long.parseLong(areas[i]));
+                        acFinal.setNome(q.getNome());
+                        repositoryAC.save(acFinal);
+                    }
+                    mv.setViewName("redirect:/lista-avaliadores");
+                }
+                else
+                {
+                    List<AreaDeConhecimento> conhecimentos = repositoryConhecimentos.findAll();
+                    mv.addObject("conhecimentos", conhecimentos);
+                    AreaDeConhecimento conhecimento2 = new AreaDeConhecimento();
+                    mv.addObject("conhecimento", conhecimento2);
+                    mv.addObject("id", id);
+                    mv.setViewName("/cadastro-area-conhecimento-avaliador");
+                }
             }
-            mv.setViewName("redirect:lista-avaliadores");
+            else
+            {
+                mv.addObject("avaliador", avaliador);
+                mv.setViewName("redirect:/principal-avaliador");
+            }
         }
         else
         {
-            List<AreaDeConhecimento> conhecimentos = repositoryConhecimentos.findAll();
-            mv.addObject("conhecimentos", conhecimentos);
-            AreaDeConhecimento conhecimento2 = new AreaDeConhecimento();
-            mv.addObject("conhecimento", conhecimento2);
-            mv.addObject("id", id);
-            mv.setViewName("cadastro-area-conhecimento-avaliador");
+            Avaliador avaliadorCarregar = new Avaliador();
+            mv.addObject("avaliador", avaliadorCarregar);
+            mv.setViewName("/login");
         }
         return mv;
     }
@@ -181,33 +216,149 @@ public class AvaliadorController {
             Avaliador avaliador = (Avaliador) session.getAttribute("usuarioLogado");
             if (avaliador.getEmail().equals("admin"))
             {
-                List<AreaDeConhecimento> conhecimentos = new ArrayList<>();
+                List<AvaliadorConhecimento> conhecimentos = new ArrayList<>();
                 List<AvaliadorConhecimento> todos = repositoryAC.findAll();
                 for (AvaliadorConhecimento var : todos) {
                     if (var.getAvaliador().equals(id))
                     {
-                        AreaDeConhecimento conhecimento = repositoryConhecimentos.getOne(var.getConhecimento());
-                        System.out.println(conhecimento.getNome());
-                        conhecimentos.add(conhecimento);
+                        conhecimentos.add(var);
                     }
                 }
-                System.out.println(conhecimentos.size());
                 mv.addObject("conhecimentos", conhecimentos);
                 mv.addObject("id", id);
-                mv.setViewName("lista-area-conhecimento-avaliador");
+                mv.setViewName("/lista-area-conhecimento-avaliador");
             }
             else
             {
                 mv.addObject("avaliador", avaliador);
-                mv.setViewName("redirect:principal-avaliador");
+                mv.setViewName("redirect:/principal-avaliador");
             }
         }
         else
         {
             mv.addObject("avaliador", avaliadorCarregar);
-            mv.setViewName("login");
+            mv.setViewName("/login");
         }
         return mv;
     }
         
+    @RequestMapping(value = { "/excluir-area-conhecimento-avaliador/{id}" }, method = RequestMethod.GET)
+    public ModelAndView carregaExcluir(@PathVariable(value = "id", required = true) Long id, HttpSession session) {
+        ModelAndView mv = new ModelAndView();
+        Avaliador avaliadorCarregar = new Avaliador();
+        if (session.getAttribute("usuarioLogado") != null)
+        {   
+            Avaliador avaliador = (Avaliador) session.getAttribute("usuarioLogado");
+            if (avaliador.getEmail().equals("admin"))
+            {
+                repositoryAC.deleteById(id);
+                mv.setViewName("redirect:/lista-avaliadores");
+            }
+            else
+            {
+                mv.addObject("avaliador", avaliador);
+                mv.setViewName("redirect:/principal-adm");
+            }
+        }
+        else
+        {
+            mv.addObject("avaliador", avaliadorCarregar);
+            mv.setViewName("/login");
+        }
+        return mv;    
+    }
+
+    @RequestMapping(value = {"/editar-avaliador/{id}"}, method = RequestMethod.GET)
+    public ModelAndView carregaEditar (@PathVariable(value = "id", required = true) Long id, HttpSession session)
+    {
+        ModelAndView mv = new ModelAndView();
+        Avaliador avaliadorCarregar = new Avaliador();
+        if (session.getAttribute("usuarioLogado") != null)
+        {   
+            Avaliador avaliador = (Avaliador) session.getAttribute("usuarioLogado");
+            if (avaliador.getEmail().equals("admin"))
+            {
+                avaliadorCarregar = repositoryAvaliador.getOne(id);
+                mv.addObject("avaliador", avaliadorCarregar);
+                mv.addObject("id", id);
+                mv.setViewName("/cadastro-avaliador");
+            }
+            else
+            {
+                mv.addObject("avaliador", avaliador);
+                mv.setViewName("redirect:/principal-avaliador");
+            }
+        }
+        else
+        {
+            mv.addObject("avaliador", avaliadorCarregar);
+            mv.setViewName("/login");
+        }
+        return mv;
+    }
+
+    @RequestMapping(value = {"/editar-avaliador"}, method = RequestMethod.POST)
+    public ModelAndView editarCadastro (@RequestParam(value = "id", required = true) Long id, Avaliador avaliador, HttpSession session)
+    {
+        ModelAndView mv = new ModelAndView();
+        Avaliador av = repositoryAvaliador.findByEmail(avaliador.getEmail());
+        Avaliador avaliadorCarregar = new Avaliador();
+        if (session.getAttribute("usuarioLogado") != null)
+        {
+            Avaliador avaliadorF = (Avaliador) session.getAttribute("usuarioLogado");
+            if (avaliadorF.getEmail().equals("admin"))
+            {        
+                if (av == null)
+                {
+                    avaliador.setId(id);
+                    repositoryAvaliador.save(avaliador);
+                    mv.setViewName("redirect:/lista-avaliadores");
+                }
+                else
+                {
+                    mv.addObject("avaliador", avaliador);
+                    mv.setViewName("redirect:/cadastro-avaliador");
+                }
+            }
+            else
+            {
+                mv.addObject("avaliador", avaliadorF);
+                mv.setViewName("redirect:/principal-avaliador");    
+            }
+            
+        }
+        else
+        {
+            mv.addObject("avaliador", avaliadorCarregar);
+            mv.setViewName("/login");
+        }
+        return mv;
+    }
+
+    @RequestMapping(value = { "/excluir-avaliador/{id}" }, method = RequestMethod.GET)
+    public ModelAndView carregaExcluirAvaliador(@PathVariable(value = "id", required = true) Long id, HttpSession session) {
+        ModelAndView mv = new ModelAndView();
+        Avaliador avaliadorCarregar = new Avaliador();
+        if (session.getAttribute("usuarioLogado") != null)
+        {   
+            Avaliador avaliador = (Avaliador) session.getAttribute("usuarioLogado");
+            if (avaliador.getEmail().equals("admin"))
+            {
+                repositoryAvaliador.deleteById(id);
+                mv.setViewName("redirect:/lista-avaliadores");
+            }
+            else
+            {
+                mv.addObject("avaliador", avaliador);
+                mv.setViewName("redirect:/principal-adm");
+            }
+        }
+        else
+        {
+            mv.addObject("avaliador", avaliadorCarregar);
+            mv.setViewName("/login");
+        }
+        return mv;    
+    }
+
 }

@@ -35,19 +35,19 @@ public class TrabalhoController {
             if (avaliador.getEmail().equals("admin"))
             {
                 mv.addObject("trabalhos", trabalhos);
-                mv.setViewName("lista-trabalhos");
+                mv.setViewName("/lista-trabalhos");
             }
             else
             {
                 mv.addObject("avaliador", avaliador);
-                mv.setViewName("redirect:principal-avaliador");
+                mv.setViewName("redirect:/principal-avaliador");
             }
         }
         else
         {
             Avaliador avaliadorCarregar = new Avaliador();
             mv.addObject("avaliador", avaliadorCarregar);
-            mv.setViewName("login");
+            mv.setViewName("/login");
         }
         return mv;
     }
@@ -65,19 +65,19 @@ public class TrabalhoController {
                 List<AreaDeConhecimento> conhecimentos = repositoryConhecimento.findAll();
                 mv.addObject("conhecimentos", conhecimentos);
                 mv.addObject("trabalho", trabalho);
-                mv.setViewName("cadastro-trabalho");
+                mv.setViewName("/cadastro-trabalho");
             }
             else
             {
                 mv.addObject("avaliador", avaliador);
-                mv.setViewName("redirect:principal-avaliador");
+                mv.setViewName("redirect:/principal-avaliador");
             }
         }
         else
         {
             Avaliador avaliadorCarregar = new Avaliador();
             mv.addObject("avaliador", avaliadorCarregar);
-            mv.setViewName("login");
+            mv.setViewName("/login");
         }
         return mv;
     }
@@ -85,18 +85,18 @@ public class TrabalhoController {
     @RequestMapping(value = {"/cadastro-trabalho"}, method = RequestMethod.POST)
     public ModelAndView realizaCadastro (Trabalho trabalho, HttpSession session)
     {
-        ModelAndView mv = new ModelAndView();
-        if (trabalho != null)
-        {
-            repositoryTrabalho.save(trabalho);
-            mv.setViewName("redirect:lista-trabalhos");
-        }
-        else
-        {
-            mv.addObject("avaliador", trabalho);
-            mv.setViewName("redirect:cadastro-trabalho");
-        }
-        return mv;
+                ModelAndView mv = new ModelAndView();
+                if (trabalho != null)
+                {
+                    repositoryTrabalho.save(trabalho);
+                    mv.setViewName("redirect:/lista-trabalhos");
+                }
+                else
+                {
+                    mv.addObject("avaliador", trabalho);
+                    mv.setViewName("redirect:/cadastro-trabalho");
+                }
+                return mv;
     }
         
 }

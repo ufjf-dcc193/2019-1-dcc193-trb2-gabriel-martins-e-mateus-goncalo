@@ -13,6 +13,7 @@ public class AvaliadorConhecimento {
     
     private Long avaliadorId;
     private Long conhecimentoId;
+    private String nome;
 
     public AvaliadorConhecimento() {
     }
@@ -46,5 +47,30 @@ public class AvaliadorConhecimento {
     public void setConhecimento(Long conhecimento) {
         this.conhecimentoId = conhecimento;
     }
+
+    public Long getAvaliadorId() {
+        return avaliadorId;
+    }
+
+    public void setAvaliadorId(Long avaliadorId) {
+        this.avaliadorId = avaliadorId;
+    }
+
+    public Long getConhecimentoId() {
+        return conhecimentoId;
+    }
+
+    public void setConhecimentoId(Long conhecimentoId) {
+        this.conhecimentoId = conhecimentoId;
+    }
+
+    public String getNome() {
+        return nome;
+    }
+
+    public void setNome(String nome) {
+        this.nome = nome;
+    }
+    
     
 }

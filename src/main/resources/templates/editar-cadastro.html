@@ -11,51 +11,51 @@
 
     <link rel="canonical" href="https://getbootstrap.com/docs/4.1/examples/pricing/" th:href="@{https://getbootstrap.com/docs/4.1/examples/pricing/}">
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
-    <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
     <link href="../static/pricing.css" rel="stylesheet" th:href="@{pricing.css}">
   </head>
 
   <body background="https://www.chainimage.com/images/home-o-shopping-sobre-o-shopping-servi%C3%A7os-vagas-como-chegar-contato.jpg"
-  style="background-repeat: repeat; background-size: 100%;;">
+  style="background-repeat: repeat; background-size: 100%;">
 
     <div class="d-flex flex-column flex-md-row align-items-center p-3 px-md-4 mb-3 bg-white border-bottom shadow-sm">
       <h5 class="my-0 mr-md-auto font-weight-normal">Sistema de avaliação</h5>
       <nav class="my-2 my-md-0 mr-md-3">
-          <a class="p-2 text-dark" href="/index">Home</a>
-          <a class="p-2 text-dark" href="/lista-avaliadores">Avaliadores</a>
-          <a class="p-2 text-dark" href="/lista-trabalhos">Trabalhos</a>
-          <a class="p-2 text-dark" href="/lista-revisoes">Revisões</a>
-          <a class="p-2 text-dark" href="/lista-conhecimentos">Áreas de conhecimento</a>
+            <a class="p-2 text-dark" href="/index">Home</a>
+            <a class="p-2 text-dark" href="/lista-avaliadores">Avaliadores</a>
+            <a class="p-2 text-dark" href="/lista-trabalhos">Trabalhos</a>
+            <a class="p-2 text-dark" href="/lista-revisoes">Revisões</a>
+            <a class="p-2 text-dark" href="/lista-conhecimentos">Áreas de conhecimento</a>
       </nav>
-      <a class="btn btn-outline-primary" href="/logout">Logout</a>
+      <a class="btn btn-outline-primary" href="/login">Logout</a>
     </div>
 
     <div class="pricing-header px-3 py-3 pt-md-5 pb-md-4 mx-auto text-center">
-        <h1 class="display-4">Lista de áreas de conhecimento</h1>
+      <h1 class="display-4">Cadastre um avaliador</h1>
     </div>
 
     <div class="container">
-    <table class="table table-dark">
-        <thead>
-          <tr>
-              <tr> 
-                  <th scope="col">Nome</th>
-                  <th scope="col">Opções</th>
-              </tr>
-          </tr>
-        </thead>
-        <tbody>
-            <tr th:each="conhecimento: ${conhecimentos}" th:object="${conhecimento}">
-                <td th:text="*{nome}"></td>
-                <td>
-                  <a th:href="@{/excluir-area-conhecimento-avaliador/{id}/(id=*{id})}" ><i class="material-icons">&#xe872;</i></a>
-                </td>
-            </tr>
-        </tbody>
-      </table>
-    
+      <div class="card-deck mb-3 text-center">
+        <div class="card mb-4 shadow-sm">
+          <div class="card-header">
+            <h4 class="my-0 font-weight-normal">Cadastro de avaliador</h4>
+          </div>
+          <div class="card-body">
+            <ul class="list-unstyled mt-3 mb-4">
+                <form th:action="@{/editar-avaliador}" th:object="${avaliador}" method="POST">
+                    <label>Nome: <input type="text" th:field="*{nome}"/></label> <br/>
+                    <label>Email: <input type="text" th:field="*{email}"/></label> <br/>
+                    <strong th:if="${#fields.hasErrors('email')}" th:errors="*{email}"></strong>
+                    <label>Senha: <input type="password" th:field="*{chave}"/></label> <br/>
+                    <input id="id" name="id" type="hidden" th:value="${id}" />
+                    <input value="Enviar" type="submit"/>
+                    <input value="Limpar" type="reset"/>
+                </form>
+            </ul>
+          </div>
+        </div>
+      </div>
 
-    <footer class="pt-4 my-md-5 pt-md-5 border-top">
+      <footer class="pt-4 my-md-5 pt-md-5 border-top">
         <div class="row">
           <div class="col-12 col-md">
             Gabriel Martins Santana <br/>
