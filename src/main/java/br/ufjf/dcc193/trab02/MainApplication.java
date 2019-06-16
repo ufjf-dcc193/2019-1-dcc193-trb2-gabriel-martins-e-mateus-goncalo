@@ -13,11 +13,12 @@ public class MainApplication {
 	public static void main(String[] args) {
 		ConfigurableApplicationContext ctx = SpringApplication.run(MainApplication.class, args);
 		AvaliadorRepository repAvaliador = ctx.getBean(AvaliadorRepository.class);
-		Avaliador avaliador = new Avaliador();
-		avaliador.setEmail("admin");
-		avaliador.setChave("admin");
-		avaliador.setNome("admin");
-		repAvaliador.save(avaliador);
+		/*Avaliador avaliador = repAvaliador.getOne(1L);
+			avaliador = new Avaliador();
+			avaliador.setEmail("admin");
+			avaliador.setChave("admin");
+			avaliador.setNome("admin");
+			repAvaliador.save(avaliador);*/
 	}
 
 }

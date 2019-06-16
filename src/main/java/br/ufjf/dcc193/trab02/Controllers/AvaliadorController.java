@@ -361,4 +361,39 @@ public class AvaliadorController {
         return mv;    
     }
 
+    @RequestMapping({"/lista-conhecimentos-avaliador"})
+    public ModelAndView carrega (HttpSession session)
+    {
+        ModelAndView mv = new ModelAndView();
+        List<Avaliador> avaliadores = repositoryAvaliador.findAll();
+        if (session.getAttribute("usuarioLogado") != null)
+        {   
+            Avaliador avaliador = (Avaliador) session.getAttribute("usuarioLogado");
+            if (avaliador.getEmail().equals("admin"))
+            {
+                mv.addObject("avaliadores", avaliadores);
+                mv.setViewName("/lista-avaliadores");
+            }
+            else
+            {
+                List<AvaliadorConhecimento> avaliador_conhecimento = repositoryAC.findAllByAvaliadorId(avaliador.getId());
+                List<AreaDeConhecimento> conhecimentos = new ArrayList<>();
+                for (AvaliadorConhecimento var : avaliador_conhecimento) {
+                    AreaDeConhecimento a = repositoryConhecimentos.getOne(var.getConhecimentoId());
+                    conhecimentos.add(a);
+                }
+                mv.addObject("conhecimentos", conhecimentos);
+                mv.addObject("avaliador", avaliador);
+                mv.setViewName("/lista-conhecimentos-avaliador");
+            }
+        }
+        else
+        {
+            Avaliador avaliadorCarregar = new Avaliador();
+            mv.addObject("avaliador", avaliadorCarregar);
+            mv.setViewName("/login");
+        }
+        return mv;
+    }
+
 }
