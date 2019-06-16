@@ -46,7 +46,7 @@ public class AreaDeConhecimentroController {
         }
         else
         {
-            mv.setViewName("redirect/login");
+            mv.setViewName("redirect:/login");
         }
         return mv;
     }

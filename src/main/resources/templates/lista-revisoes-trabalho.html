@@ -31,7 +31,7 @@
     </div>
 
     <div class="pricing-header px-3 py-3 pt-md-5 pb-md-4 mx-auto text-center">
-        <h1 class="display-4">Lista de trabalhos da área de conhecimento</h1>
+        <h1 class="display-4">Lista de revisões da área de conhecimento</h1>
     </div>
 
     <div class="container">
@@ -54,7 +54,7 @@
                 <td th:text="*{statusNome}"></td>
                 <td th:text="*{revisor.nome}"></td>
                 <td>
-                    <a th:href="@{/mudar-status-revisao/{id}/(id=*{id})}" ><i class="material-icons">&#xe241;</i></a>
+                    <a th:href="@{/mudar-status-revisao/{id}/(id=*{id})}" ><i class="material-icons">&#xe254;</i></a>
                 </td>
             </tr>
         </tbody>

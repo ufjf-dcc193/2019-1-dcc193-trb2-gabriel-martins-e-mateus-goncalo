@@ -31,7 +31,7 @@ public class RevisaoController {
     @Autowired
     private TrabalhoRepository repositoryTrabalho;
 
-    @RequestMapping(value = {"/lista-revisoes-administrador"}, method = RequestMethod.GET)
+    @RequestMapping(value = {"/lista-revisoes"}, method = RequestMethod.GET)
     public ModelAndView carregaRevisaoAdministrador (HttpSession session)
     {
         ModelAndView mv = new ModelAndView();
@@ -41,8 +41,29 @@ public class RevisaoController {
             if (avaliador.getEmail().equals("admin"))
             {
                 List<Revisao> revisoes = repositoryRevisao.findAll();
-                mv.addObject("revisoes", revisoes);
-                mv.setViewName("/lista-revisoes-administrador");
+                List<Revisao> revisoesEnviar = new ArrayList<>();
+                for (Revisao var : revisoes) {
+                    if (var.getStatus() != 0 && var.getStatus() != 2)
+                    {
+                        if(var.getStatus() == 1)
+                        {
+                            var.setStatusNome("avaliado");
+                            revisoesEnviar.add(var);
+                        }
+                        else if(var.getStatus() == 3)
+                        {
+                            var.setStatusNome("validado");
+                            revisoesEnviar.add(var);
+                        }
+                        else if(var.getStatus() == 4)
+                        {
+                            var.setStatusNome("invalidado");
+                            revisoesEnviar.add(var);
+                        }    
+                    }
+                }
+                mv.addObject("revisoes", revisoesEnviar);
+                mv.setViewName("/lista-revisoes");
             }
             else
             {
@@ -95,27 +116,53 @@ public class RevisaoController {
                 List<Revisao> revisoesEnviar = new ArrayList<>();
                 Set<Revisao> revisoes = trabalho.getRevisoes();
                 for (Revisao var : revisoes) {
-                    if (var.getStatus() == 0)
-                    {
-                        var.setStatusNome("a avaliar");
-                    }
-                    else if(var.getStatus() == 1)
+                    if(var.getStatus() == 1)
                     {
                         var.setStatusNome("avaliado");
                         revisoesEnviar.add(var);
-                    }
-                    else if(var.getStatus() == 2)
-                    {
-                        var.setStatusNome("impedido");
                     }
                     else if(var.getStatus() == 3)
                     {
                         var.setStatusNome("validado");
                         revisoesEnviar.add(var);
                     }
-                    else
+                    else if(var.getStatus() == 4)
                     {
                         var.setStatusNome("invalidado");
+                        revisoesEnviar.add(var);
+                    }
+                }
+                mv.addObject("revisoes", revisoesEnviar);
+                mv.setViewName("/lista-revisoes-trabalho");
+            }
+            else
+            {
+                mv.setViewName("redirect:/principal-avaliador");
+            }
+        }
+        else
+        {
+            mv.setViewName("redirect:/login");
+        }
+        return mv;
+    }
+
+    @RequestMapping(value = {"/lista-revisoes-avaliador/{id}"}, method = RequestMethod.GET)
+    public ModelAndView carregaRevisoesTrabalhoAvaliador (@PathVariable(value = "id", required = true) Long id, HttpSession session)
+    {
+        ModelAndView mv = new ModelAndView();
+        if (session.getAttribute("usuarioLogado") != null)
+        {   
+            Avaliador avaliador = (Avaliador) session.getAttribute("usuarioLogado");
+            if (avaliador.getEmail().equals("admin"))
+            {
+                Avaliador av = repositoryAvaliador.getOne(id);
+                List<Revisao> revisoesEnviar = new ArrayList<>();
+                Set<Revisao> revisoes = av.getRevisoes();
+                for (Revisao var : revisoes) {
+                    if(var.getStatus() == 1)
+                    {
+                        var.setStatusNome("avaliado");
                         revisoesEnviar.add(var);
                     }
                 }
@@ -153,7 +200,7 @@ public class RevisaoController {
                 for (Revisao var : revisoes) {
                     if (var.getTrabalho().getId().equals(id))
                     {
-                        if (var.getStatus() != 0 && var.getStatus() != 3)
+                        if (var.getStatus() != 0 && var.getStatus() != 2)
                         {
                             String status;
                             mv.addObject("revisao", var);
@@ -316,6 +363,73 @@ public class RevisaoController {
         {
             mv.setViewName("redirect:/login");
         }
+        return mv;
+    }
+
+    @RequestMapping(value = {"/mudar-status-revisao/{id}"}, method = RequestMethod.GET)
+    public ModelAndView carregaMudarStatusRevisao (@PathVariable(value = "id", required = true) Long id, HttpSession session)
+    {
+        ModelAndView mv = new ModelAndView();
+        if (session.getAttribute("usuarioLogado") != null)
+        {   
+            Avaliador avaliador = (Avaliador) session.getAttribute("usuarioLogado");
+            if (avaliador.getEmail().equals("admin"))
+            {
+                Revisao revisao = repositoryRevisao.getOne(id);
+                if(revisao.getStatus() == 1)
+                {
+                    revisao.setStatusNome("avaliado");
+                }
+                else if(revisao.getStatus() == 3)
+                {
+                    revisao.setStatusNome("validado");
+                }
+                else if(revisao.getStatus() == 4)
+                {
+                    revisao.setStatusNome("invalidado");
+                }
+                
+                mv.addObject("statusatual", revisao.getStatusNome());
+                mv.addObject("revisao", revisao);
+                mv.addObject("id", revisao.getId());
+                mv.setViewName("/mudar-status-revisao");
+            }
+            else
+            {
+                mv.setViewName("redirect:/principal-avaliador");
+            }
+        }
+        else
+        {
+            mv.setViewName("redirect:/login");
+        }
+        return mv;
+    }
+
+    @RequestMapping(value = {"/mudar-status-revisao"}, method = RequestMethod.POST)
+    public ModelAndView salvarMudarStatus (@RequestParam(value = "id", required = true) Long id, 
+    @RequestParam(value = "statusmudado", required = true) Integer statusNovo, HttpSession session)
+    {
+        ModelAndView mv = new ModelAndView();
+        if (session.getAttribute("usuarioLogado") != null)
+        {   
+            Avaliador avaliador = (Avaliador) session.getAttribute("usuarioLogado");
+            if (avaliador.getEmail().equals("admin"))
+            {
+                Revisao revisao = repositoryRevisao.getOne(id);
+                revisao.setStatus(statusNovo);
+                repositoryRevisao.save(revisao);
+                mv.setViewName("redirect:/lista-revisoes");
+            }
+            else
+            {
+                mv.setViewName("redirect:/principal-avaliador");                
+            }
+        }
+        else
+        {
+            mv.setViewName("redirect:/login");
+        } 
         return mv;
     }
 
