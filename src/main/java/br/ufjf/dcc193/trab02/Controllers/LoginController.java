@@ -21,25 +21,21 @@ public class LoginController {
     public ModelAndView carregaLogin (HttpSession session)
     {
         ModelAndView mv = new ModelAndView();
-        Avaliador avaliadorCarregar = new Avaliador();
         if (session.getAttribute("usuarioLogado") != null)
         {   
             Avaliador avaliador = (Avaliador) session.getAttribute("usuarioLogado");
             if (avaliador.getEmail().equals("admin"))
             {
-                mv.addObject("avaliador", avaliador);
-                mv.setViewName("redirect:principal-adm");
+                mv.setViewName("redirect:/principal-adm");
             }
             else
             {
-                mv.addObject("avaliador", avaliador);
-                mv.setViewName("redirect:principal-avaliador");
+                mv.setViewName("redirect:/principal-avaliador");
             }
         }
         else
         {
-            mv.addObject("avaliador", avaliadorCarregar);
-            mv.setViewName("login");
+            mv.setViewName("redirect:/login");
         }
         return mv;
     }
@@ -55,17 +51,16 @@ public class LoginController {
             mv.addObject("avaliador", av);
             if (av.getEmail().equals("admin"))
             {
-                mv.setViewName("redirect:principal-adm");
+                mv.setViewName("redirect:/principal-adm");
             }
             else
             {
-                mv.setViewName("redirect:principal-avaliador");
+                mv.setViewName("redirect:/principal-avaliador");
             }
         }
         else
         {
-            mv.addObject("avaliador", avaliador);
-            mv.setViewName("login");
+            mv.setViewName("redirect:/login");
         }
         return mv;
     }
@@ -75,9 +70,7 @@ public class LoginController {
     {
         ModelAndView mv = new ModelAndView();
         session.setAttribute("usuarioLogado", null);
-        Avaliador avaliador = new Avaliador();
-        mv.addObject("avaliador", avaliador);
-        mv.setViewName("redirect:index");
+        mv.setViewName("redirect:/index");
         return mv;
     }
         

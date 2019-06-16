@@ -1,5 +1,6 @@
 package br.ufjf.dcc193.trab02.Controllers;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.servlet.http.HttpSession;
@@ -14,8 +15,10 @@ import org.springframework.web.servlet.ModelAndView;
 
 import br.ufjf.dcc193.trab02.Models.AreaDeConhecimento;
 import br.ufjf.dcc193.trab02.Models.Avaliador;
+import br.ufjf.dcc193.trab02.Models.AvaliadorConhecimento;
 import br.ufjf.dcc193.trab02.Models.Trabalho;
 import br.ufjf.dcc193.trab02.Persistence.AreaDeConhecimentoRepository;
+import br.ufjf.dcc193.trab02.Persistence.AvaliadorConhecimentoRepository;
 import br.ufjf.dcc193.trab02.Persistence.TrabalhoRepository;
 
 @Controller
@@ -25,31 +28,30 @@ public class TrabalhoController {
     private TrabalhoRepository repositoryTrabalho;
     @Autowired
     private AreaDeConhecimentoRepository repositoryConhecimento;
+    @Autowired
+    private AvaliadorConhecimentoRepository repositoryAC;
 
     @RequestMapping({"/lista-trabalhos"})
     public ModelAndView carregaTrabalhos (HttpSession session)
     {
         ModelAndView mv = new ModelAndView();
-        List<Trabalho> trabalhos = repositoryTrabalho.findAll();
         if (session.getAttribute("usuarioLogado") != null)
         {   
             Avaliador avaliador = (Avaliador) session.getAttribute("usuarioLogado");
             if (avaliador.getEmail().equals("admin"))
             {
+                List<Trabalho> trabalhos = repositoryTrabalho.findAll();
                 mv.addObject("trabalhos", trabalhos);
                 mv.setViewName("/lista-trabalhos");
             }
             else
             {
-                mv.addObject("avaliador", avaliador);
                 mv.setViewName("redirect:/principal-avaliador");
             }
         }
         else
         {
-            Avaliador avaliadorCarregar = new Avaliador();
-            mv.addObject("avaliador", avaliadorCarregar);
-            mv.setViewName("/login");
+            mv.setViewName("redirect:/login");
         }
         return mv;
     }
@@ -58,12 +60,12 @@ public class TrabalhoController {
     public ModelAndView carregaCadastro (HttpSession session)
     {
         ModelAndView mv = new ModelAndView();
-        Trabalho trabalho = new Trabalho();
         if (session.getAttribute("usuarioLogado") != null)
         {   
             Avaliador avaliador = (Avaliador) session.getAttribute("usuarioLogado");
             if (avaliador.getEmail().equals("admin"))
             {
+                Trabalho trabalho = new Trabalho();
                 List<AreaDeConhecimento> conhecimentos = repositoryConhecimento.findAll();
                 mv.addObject("conhecimentos", conhecimentos);
                 mv.addObject("trabalho", trabalho);
@@ -71,15 +73,12 @@ public class TrabalhoController {
             }
             else
             {
-                mv.addObject("avaliador", avaliador);
                 mv.setViewName("redirect:/principal-avaliador");
             }
         }
         else
         {
-            Avaliador avaliadorCarregar = new Avaliador();
-            mv.addObject("avaliador", avaliadorCarregar);
-            mv.setViewName("/login");
+            mv.setViewName("redirect:/login");
         }
         return mv;
     }
@@ -100,21 +99,18 @@ public class TrabalhoController {
                 }
                 else
                 {
-                    mv.addObject("avaliador", trabalho);
+                    mv.addObject("trabalho", trabalho);
                     mv.setViewName("redirect:/cadastro-trabalho");
                 }
             }
             else
             {
-                mv.addObject("avaliador", avaliador);
                 mv.setViewName("redirect:/principal-avaliador");
             }
         }
         else
         {
-            Avaliador avaliadorCarregar = new Avaliador();
-            mv.addObject("avaliador", avaliadorCarregar);
-            mv.setViewName("/login");
+            mv.setViewName("redirect:/login");
         }            
         return mv;
     }    
@@ -123,12 +119,12 @@ public class TrabalhoController {
     public ModelAndView carregaEditar (@PathVariable(value = "id", required = true) Long id, HttpSession session)
     {
         ModelAndView mv = new ModelAndView();
-        Trabalho trabalho = new Trabalho();
         if (session.getAttribute("usuarioLogado") != null)
         {   
             Avaliador avaliador = (Avaliador) session.getAttribute("usuarioLogado");
             if (avaliador.getEmail().equals("admin"))
             {
+                Trabalho trabalho = new Trabalho();
                 trabalho = repositoryTrabalho.getOne(id);
                 List<AreaDeConhecimento> conhecimentos = repositoryConhecimento.findAll();
                 mv.addObject("conhecimentos", conhecimentos);
@@ -138,15 +134,12 @@ public class TrabalhoController {
             }
             else
             {
-                mv.addObject("avaliador", avaliador);
                 mv.setViewName("redirect:/principal-avaliador");
             }
         }
         else
         {
-            Avaliador avaliadorCarregar = new Avaliador();
-            mv.addObject("avaliador", avaliadorCarregar);
-            mv.setViewName("/login");
+            mv.setViewName("redirect:/login");
         }
         return mv;
     }
@@ -168,21 +161,18 @@ public class TrabalhoController {
                 }
                 else
                 {
-                    mv.addObject("avaliador", trabalho);
-                    mv.setViewName("redirect:/cadastro-trabalho");
+                    mv.addObject("trabalho", trabalho);
+                    mv.setViewName("/editar-trabalho");
                 }
             }
             else
             {
-                mv.addObject("avaliador", avaliador);
                 mv.setViewName("redirect:/principal-avaliador");
             }
         }
         else
         {
-            Avaliador avaliadorCarregar = new Avaliador();
-            mv.addObject("avaliador", avaliadorCarregar);
-            mv.setViewName("/login");
+            mv.setViewName("redirect:/login");
         }            
         return mv;
     }     
@@ -190,7 +180,6 @@ public class TrabalhoController {
     @RequestMapping(value = { "/excluir-trabalho/{id}" }, method = RequestMethod.GET)
     public ModelAndView carregaExcluir(@PathVariable(value = "id", required = true) Long id, HttpSession session) {
         ModelAndView mv = new ModelAndView();
-        Avaliador avaliadorCarregar = new Avaliador();
         if (session.getAttribute("usuarioLogado") != null)
         {   
             Avaliador avaliador = (Avaliador) session.getAttribute("usuarioLogado");
@@ -201,16 +190,47 @@ public class TrabalhoController {
             }
             else
             {
-                mv.addObject("avaliador", avaliador);
                 mv.setViewName("redirect:/principal-adm");
             }
         }
         else
         {
-            mv.addObject("avaliador", avaliadorCarregar);
-            mv.setViewName("/login");
+            mv.setViewName("redirect:/login");
         }
         return mv;    
+    }
+
+    @RequestMapping({"/lista-trabalhos-todos"})
+    public ModelAndView carregaTrabalhosParaAvaliar (HttpSession session)
+    {
+        ModelAndView mv = new ModelAndView();
+        if (session.getAttribute("usuarioLogado") != null)
+        {   
+            Avaliador avaliador = (Avaliador) session.getAttribute("usuarioLogado");
+            if (avaliador.getEmail().equals("admin"))
+            {
+                mv.setViewName("redirect:/index");
+            }
+            else
+            {
+                List<AvaliadorConhecimento> todosParaRevisar = repositoryAC.findAllByAvaliadorId(avaliador.getId());
+                List<Trabalho> trabalhos = new ArrayList<>();
+                for (AvaliadorConhecimento var : todosParaRevisar) {
+                    AreaDeConhecimento a = repositoryConhecimento.getOne(var.getConhecimentoId());
+                    List<Trabalho> trabalhoAux = repositoryTrabalho.findByTrabalhoAreaDeConhecimento(a);
+                    for (Trabalho var2 : trabalhoAux) {
+                        trabalhos.add(var2);
+                    }
+                }
+                mv.addObject("trabalhos", trabalhos);
+                mv.setViewName("/lista-trabalhos-todos");
+            }
+        }
+        else
+        {
+            mv.setViewName("redirect:/login");
+        }
+        return mv;
     }
 
 }

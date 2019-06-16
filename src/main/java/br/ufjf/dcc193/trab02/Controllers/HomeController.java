@@ -18,23 +18,23 @@ public class HomeController {
             Avaliador avaliador = (Avaliador) session.getAttribute("usuarioLogado");
             if (avaliador.getEmail().equals("admin"))
             {
-                return "principal-adm";
+                return "/principal-adm";
             }
             else
             {
-                return "principal-avaliador";
+                return "/principal-avaliador";
             }
         }
         else
         {
-            return "index";
+            return "/index";
         }
     }
 
     @RequestMapping({"/sobre"})
     public String sobre ()
     {
-        return "sobre";
+        return "/sobre";
     }
         
 }

@@ -34,26 +34,23 @@ public class AvaliadorController {
     public ModelAndView carregaAvaliadores (HttpSession session)
     {
         ModelAndView mv = new ModelAndView();
-        List<Avaliador> avaliadores = repositoryAvaliador.findAll();
         if (session.getAttribute("usuarioLogado") != null)
         {   
             Avaliador avaliador = (Avaliador) session.getAttribute("usuarioLogado");
             if (avaliador.getEmail().equals("admin"))
             {
+                List<Avaliador> avaliadores = repositoryAvaliador.findAll();
                 mv.addObject("avaliadores", avaliadores);
                 mv.setViewName("/lista-avaliadores");
             }
             else
             {
-                mv.addObject("avaliador", avaliador);
                 mv.setViewName("redirect:/principal-adm");
             }
         }
         else
         {
-            Avaliador avaliadorCarregar = new Avaliador();
-            mv.addObject("avaliador", avaliadorCarregar);
-            mv.setViewName("/login");
+            mv.setViewName("redirect:/login");
         }
         return mv;
     }
@@ -62,25 +59,23 @@ public class AvaliadorController {
     public ModelAndView carregaCadastro (HttpSession session)
     {
         ModelAndView mv = new ModelAndView();
-        Avaliador avaliadorCarregar = new Avaliador();
         if (session.getAttribute("usuarioLogado") != null)
         {   
             Avaliador avaliador = (Avaliador) session.getAttribute("usuarioLogado");
             if (avaliador.getEmail().equals("admin"))
             {
+                Avaliador avaliadorCarregar = new Avaliador();
                 mv.addObject("avaliador", avaliadorCarregar);
                 mv.setViewName("/cadastro-avaliador");
             }
             else
             {
-                mv.addObject("avaliador", avaliador);
                 mv.setViewName("redirect:/principal-avaliador");
             }
         }
         else
         {
-            mv.addObject("avaliador", avaliadorCarregar);
-            mv.setViewName("/login");
+            mv.setViewName("redirect:/login");
         }
         return mv;
     }
@@ -89,13 +84,13 @@ public class AvaliadorController {
     public ModelAndView realizaCadastro (Avaliador avaliador, HttpSession session)
     {
         ModelAndView mv = new ModelAndView();
-        Avaliador av = repositoryAvaliador.findByEmail(avaliador.getEmail());
         Avaliador avaliadorCarregar = new Avaliador();
         if (session.getAttribute("usuarioLogado") != null)
         {
             Avaliador avaliadorF = (Avaliador) session.getAttribute("usuarioLogado");
             if (avaliadorF.getEmail().equals("admin"))
             {        
+                Avaliador av = repositoryAvaliador.findByEmail(avaliador.getEmail());
                 if (av == null)
                 {
                     repositoryAvaliador.save(avaliador);
@@ -109,15 +104,12 @@ public class AvaliadorController {
             }
             else
             {
-                mv.addObject("avaliador", avaliadorF);
                 mv.setViewName("redirect:/principal-avaliador");    
-            }
-            
+            }            
         }
         else
         {
-            mv.addObject("avaliador", avaliadorCarregar);
-            mv.setViewName("/login");
+            mv.setViewName("redirect:/login");
         }
         return mv;
     }
@@ -126,7 +118,6 @@ public class AvaliadorController {
     public ModelAndView carregaCadastroAreaConhecimento (@PathVariable(value = "id", required = true) Long id, HttpSession session)
     {
         ModelAndView mv = new ModelAndView();
-        Avaliador avaliadorCarregar = new Avaliador();
         if (session.getAttribute("usuarioLogado") != null)
         {   
             Avaliador avaliador = (Avaliador) session.getAttribute("usuarioLogado");
@@ -144,14 +135,12 @@ public class AvaliadorController {
             }
             else
             {
-                mv.addObject("avaliador", avaliador);
                 mv.setViewName("redirect:/principal-avaliador");
             }
         }
         else
         {
-            mv.addObject("avaliador", avaliadorCarregar);
-            mv.setViewName("/login");
+            mv.setViewName("redirect:/login");
         }
         return mv;
     }
@@ -160,16 +149,16 @@ public class AvaliadorController {
     public ModelAndView realizaCadastroAreaConhecimento (@RequestParam(value = "id", required = true) Long id, 
     @RequestParam(value = "conhecimentos", required = true) String conhecimento, HttpSession session)
     {
-        String [] areas = conhecimento.split(";");
         ModelAndView mv = new ModelAndView();
-        Avaliador av = repositoryAvaliador.getOne(id);
         if (session.getAttribute("usuarioLogado") != null)
         {   
             Avaliador avaliador = (Avaliador) session.getAttribute("usuarioLogado");
             if (avaliador.getEmail().equals("admin"))
             {
+                Avaliador av = repositoryAvaliador.getOne(id);
                 if (av != null)
                 {
+                    String [] areas = conhecimento.split(";");
                     for(int i = 0; i < areas.length; i++)
                     {
                         AvaliadorConhecimento acFinal = new AvaliadorConhecimento();
@@ -193,15 +182,12 @@ public class AvaliadorController {
             }
             else
             {
-                mv.addObject("avaliador", avaliador);
                 mv.setViewName("redirect:/principal-avaliador");
             }
         }
         else
         {
-            Avaliador avaliadorCarregar = new Avaliador();
-            mv.addObject("avaliador", avaliadorCarregar);
-            mv.setViewName("/login");
+            mv.setViewName("redirect:/login");
         }
         return mv;
     }
@@ -210,7 +196,6 @@ public class AvaliadorController {
     public ModelAndView carregaListaAreaConhecimentoAvaliador (@PathVariable(value = "id", required = true) Long id, HttpSession session)
     {
         ModelAndView mv = new ModelAndView();
-        Avaliador avaliadorCarregar = new Avaliador();
         if (session.getAttribute("usuarioLogado") != null)
         {   
             Avaliador avaliador = (Avaliador) session.getAttribute("usuarioLogado");
@@ -236,8 +221,7 @@ public class AvaliadorController {
         }
         else
         {
-            mv.addObject("avaliador", avaliadorCarregar);
-            mv.setViewName("/login");
+            mv.setViewName("redirect:/login");
         }
         return mv;
     }
@@ -245,7 +229,6 @@ public class AvaliadorController {
     @RequestMapping(value = { "/excluir-area-conhecimento-avaliador/{id}" }, method = RequestMethod.GET)
     public ModelAndView carregaExcluir(@PathVariable(value = "id", required = true) Long id, HttpSession session) {
         ModelAndView mv = new ModelAndView();
-        Avaliador avaliadorCarregar = new Avaliador();
         if (session.getAttribute("usuarioLogado") != null)
         {   
             Avaliador avaliador = (Avaliador) session.getAttribute("usuarioLogado");
@@ -256,14 +239,12 @@ public class AvaliadorController {
             }
             else
             {
-                mv.addObject("avaliador", avaliador);
                 mv.setViewName("redirect:/principal-adm");
             }
         }
         else
         {
-            mv.addObject("avaliador", avaliadorCarregar);
-            mv.setViewName("/login");
+            mv.setViewName("redirect:/login");
         }
         return mv;    
     }
@@ -272,12 +253,12 @@ public class AvaliadorController {
     public ModelAndView carregaEditar (@PathVariable(value = "id", required = true) Long id, HttpSession session)
     {
         ModelAndView mv = new ModelAndView();
-        Avaliador avaliadorCarregar = new Avaliador();
         if (session.getAttribute("usuarioLogado") != null)
         {   
             Avaliador avaliador = (Avaliador) session.getAttribute("usuarioLogado");
             if (avaliador.getEmail().equals("admin"))
             {
+                Avaliador avaliadorCarregar = new Avaliador();
                 avaliadorCarregar = repositoryAvaliador.getOne(id);
                 mv.addObject("avaliador", avaliadorCarregar);
                 mv.addObject("id", id);
@@ -285,14 +266,12 @@ public class AvaliadorController {
             }
             else
             {
-                mv.addObject("avaliador", avaliador);
                 mv.setViewName("redirect:/principal-avaliador");
             }
         }
         else
         {
-            mv.addObject("avaliador", avaliadorCarregar);
-            mv.setViewName("/login");
+            mv.setViewName("redirect:/login");
         }
         return mv;
     }
@@ -301,13 +280,12 @@ public class AvaliadorController {
     public ModelAndView editarCadastro (@RequestParam(value = "id", required = true) Long id, Avaliador avaliador, HttpSession session)
     {
         ModelAndView mv = new ModelAndView();
-        Avaliador av = repositoryAvaliador.findByEmail(avaliador.getEmail());
-        Avaliador avaliadorCarregar = new Avaliador();
         if (session.getAttribute("usuarioLogado") != null)
         {
             Avaliador avaliadorF = (Avaliador) session.getAttribute("usuarioLogado");
             if (avaliadorF.getEmail().equals("admin"))
             {        
+                Avaliador av = repositoryAvaliador.findByEmail(avaliador.getEmail());
                 if (av == null)
                 {
                     avaliador.setId(id);
@@ -317,20 +295,17 @@ public class AvaliadorController {
                 else
                 {
                     mv.addObject("avaliador", avaliador);
-                    mv.setViewName("redirect:/cadastro-avaliador");
+                    mv.setViewName("/editar-avaliador");
                 }
             }
             else
             {
-                mv.addObject("avaliador", avaliadorF);
                 mv.setViewName("redirect:/principal-avaliador");    
-            }
-            
+            }            
         }
         else
         {
-            mv.addObject("avaliador", avaliadorCarregar);
-            mv.setViewName("/login");
+            mv.setViewName("redirect:/login");
         }
         return mv;
     }
@@ -338,7 +313,6 @@ public class AvaliadorController {
     @RequestMapping(value = { "/excluir-avaliador/{id}" }, method = RequestMethod.GET)
     public ModelAndView carregaExcluirAvaliador(@PathVariable(value = "id", required = true) Long id, HttpSession session) {
         ModelAndView mv = new ModelAndView();
-        Avaliador avaliadorCarregar = new Avaliador();
         if (session.getAttribute("usuarioLogado") != null)
         {   
             Avaliador avaliador = (Avaliador) session.getAttribute("usuarioLogado");
@@ -349,14 +323,12 @@ public class AvaliadorController {
             }
             else
             {
-                mv.addObject("avaliador", avaliador);
                 mv.setViewName("redirect:/principal-adm");
             }
         }
         else
         {
-            mv.addObject("avaliador", avaliadorCarregar);
-            mv.setViewName("/login");
+            mv.setViewName("redirect:/login");
         }
         return mv;    
     }
@@ -365,14 +337,12 @@ public class AvaliadorController {
     public ModelAndView carrega (HttpSession session)
     {
         ModelAndView mv = new ModelAndView();
-        List<Avaliador> avaliadores = repositoryAvaliador.findAll();
         if (session.getAttribute("usuarioLogado") != null)
         {   
             Avaliador avaliador = (Avaliador) session.getAttribute("usuarioLogado");
             if (avaliador.getEmail().equals("admin"))
             {
-                mv.addObject("avaliadores", avaliadores);
-                mv.setViewName("/lista-avaliadores");
+                mv.setViewName("redirect:/index");
             }
             else
             {
@@ -389,9 +359,7 @@ public class AvaliadorController {
         }
         else
         {
-            Avaliador avaliadorCarregar = new Avaliador();
-            mv.addObject("avaliador", avaliadorCarregar);
-            mv.setViewName("/login");
+            mv.setViewName("redirect:/login");
         }
         return mv;
     }

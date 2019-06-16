@@ -30,26 +30,23 @@ public class AreaDeConhecimentroController {
     public ModelAndView carregaAvaliadores (HttpSession session)
     {
         ModelAndView mv = new ModelAndView();
-        List<AreaDeConhecimento> conhecimentos = repositoryConhecimentos.findAll();
         if (session.getAttribute("usuarioLogado") != null)
         {   
             Avaliador avaliador = (Avaliador) session.getAttribute("usuarioLogado");
             if (avaliador.getEmail().equals("admin"))
             {
+                List<AreaDeConhecimento> conhecimentos = repositoryConhecimentos.findAll();
                 mv.addObject("conhecimentos", conhecimentos);
                 mv.setViewName("/lista-areasconhecimento");
             }
             else
             {
-                mv.addObject("avaliador", avaliador);
                 mv.setViewName("redirect:/principal-adm");
             }
         }
         else
         {
-            Avaliador avaliadorCarregar = new Avaliador();
-            mv.addObject("avaliador", avaliadorCarregar);
-            mv.setViewName("/login");
+            mv.setViewName("redirect/login");
         }
         return mv;
     }
@@ -58,26 +55,23 @@ public class AreaDeConhecimentroController {
     public ModelAndView carregaCadastro (HttpSession session)
     {
         ModelAndView mv = new ModelAndView();
-        Avaliador avaliadorCarregar = new Avaliador();
-        AreaDeConhecimento conhecimento = new AreaDeConhecimento();
         if (session.getAttribute("usuarioLogado") != null)
         {   
             Avaliador avaliador = (Avaliador) session.getAttribute("usuarioLogado");
             if (avaliador.getEmail().equals("admin"))
             {
+                AreaDeConhecimento conhecimento = new AreaDeConhecimento();
                 mv.addObject("conhecimento", conhecimento);
                 mv.setViewName("/cadastro-conhecimento");
             }
             else
             {
-                mv.addObject("avaliador", avaliador);
                 mv.setViewName("redirect:/principal-adm");
             }
         }
         else
         {
-            mv.addObject("avaliador", avaliadorCarregar);
-            mv.setViewName("/login");
+            mv.setViewName("redirect:/login");
         }
         return mv;
     }
@@ -86,13 +80,12 @@ public class AreaDeConhecimentroController {
     public ModelAndView realizaCadastro (AreaDeConhecimento conhecimento, HttpSession session)
     {
         ModelAndView mv = new ModelAndView();
-        Avaliador avaliadorCarregar = new Avaliador();
-        AreaDeConhecimento area = repositoryConhecimentos.findByNome(conhecimento.getNome());
         if (session.getAttribute("usuarioLogado") != null)
         {
             Avaliador avaliador = (Avaliador) session.getAttribute("usuarioLogado");
             if (avaliador.getEmail().equals("admin"))
             {
+                AreaDeConhecimento area = repositoryConhecimentos.findByNome(conhecimento.getNome());
                 if (area == null)
                 {
                     repositoryConhecimentos.save(conhecimento);
@@ -106,14 +99,12 @@ public class AreaDeConhecimentroController {
             }
             else
             {
-                mv.addObject("avaliador", avaliador);
                 mv.setViewName("redirect:/principal-adm");
             }
         }
         else
         {
-            mv.addObject("avaliador", avaliadorCarregar);
-            mv.setViewName("/login");
+            mv.setViewName("redirect:/login");
         }
         return mv; 
     }
@@ -122,26 +113,23 @@ public class AreaDeConhecimentroController {
     public ModelAndView carregaEditar (@PathVariable(value = "id", required = true) Long id, HttpSession session)
     {
         ModelAndView mv = new ModelAndView();
-        Avaliador avaliadorCarregar = new Avaliador();
-        AreaDeConhecimento conhecimento = repositoryConhecimentos.getOne(id);
         if (session.getAttribute("usuarioLogado") != null)
         {   
             Avaliador avaliador = (Avaliador) session.getAttribute("usuarioLogado");
             if (avaliador.getEmail().equals("admin"))
             {
+                AreaDeConhecimento conhecimento = repositoryConhecimentos.getOne(id);
                 mv.addObject("conhecimento", conhecimento);
                 mv.setViewName("/editar-conhecimento");
             }
             else
             {
-                mv.addObject("avaliador", avaliador);
                 mv.setViewName("redirect:/principal-adm");
             }
         }
         else
         {
-            mv.addObject("avaliador", avaliadorCarregar);
-            mv.setViewName("/login");
+            mv.setViewName("redirect:/login");
         }
         return mv;
     }
@@ -150,13 +138,12 @@ public class AreaDeConhecimentroController {
     public ModelAndView realizaEditar (@RequestParam(value = "id", required = true) Long id, AreaDeConhecimento conhecimento, HttpSession session)
     {
         ModelAndView mv = new ModelAndView();
-        Avaliador avaliadorCarregar = new Avaliador();
-        AreaDeConhecimento area = repositoryConhecimentos.getOne(id);
         if (session.getAttribute("usuarioLogado") != null)
         {   
             Avaliador avaliador = (Avaliador) session.getAttribute("usuarioLogado");
             if (avaliador.getEmail().equals("admin"))
             {            
+                AreaDeConhecimento area = repositoryConhecimentos.getOne(id);
                 if (area != null)
                 {
                     AreaDeConhecimento jaExiste = repositoryConhecimentos.findByNome(conhecimento.getNome());
@@ -169,7 +156,7 @@ public class AreaDeConhecimentroController {
                     else
                     {
                         mv.addObject("conhecimento", area);
-                        mv.setViewName("redirect:/cadastro-conhecimento");
+                        mv.setViewName("/editar-conhecimento");
                     }      
                 }
                 else
@@ -180,14 +167,12 @@ public class AreaDeConhecimentroController {
             }
             else
             {
-                mv.addObject("avaliador", avaliador);
                 mv.setViewName("redirect:/principal-adm");
             }
         }
         else
         {
-            mv.addObject("avaliador", avaliadorCarregar);
-            mv.setViewName("/login");
+            mv.setViewName("redirect:/login");
         }
         return mv;
     }
@@ -195,7 +180,6 @@ public class AreaDeConhecimentroController {
     @RequestMapping(value = { "/excluir-area-conhecimento/{id}" }, method = RequestMethod.GET)
     public ModelAndView carregaExcluir(@PathVariable(value = "id", required = true) Long id, HttpSession session) {
         ModelAndView mv = new ModelAndView();
-        Avaliador avaliadorCarregar = new Avaliador();
         if (session.getAttribute("usuarioLogado") != null)
         {   
             Avaliador avaliador = (Avaliador) session.getAttribute("usuarioLogado");
@@ -219,8 +203,7 @@ public class AreaDeConhecimentroController {
         }
         else
         {
-            mv.addObject("avaliador", avaliadorCarregar);
-            mv.setViewName("/login");
+            mv.setViewName("redirect:/login");
         }
         return mv;    
     }
