@@ -1,5 +1,6 @@
 package br.ufjf.dcc193.trab02.Controllers;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 
@@ -81,6 +82,58 @@ public class RevisaoController {
         return mv;
     }
 
+    @RequestMapping(value = {"/listar-revisoes-trabalho/{id}"}, method = RequestMethod.GET)
+    public ModelAndView carregaRevisoesTrabalho (@PathVariable(value = "id", required = true) Long id, HttpSession session)
+    {
+        ModelAndView mv = new ModelAndView();
+        if (session.getAttribute("usuarioLogado") != null)
+        {   
+            Avaliador avaliador = (Avaliador) session.getAttribute("usuarioLogado");
+            if (avaliador.getEmail().equals("admin"))
+            {
+                Trabalho trabalho = repositoryTrabalho.getOne(id);
+                List<Revisao> revisoesEnviar = new ArrayList<>();
+                Set<Revisao> revisoes = trabalho.getRevisoes();
+                for (Revisao var : revisoes) {
+                    if (var.getStatus() == 0)
+                    {
+                        var.setStatusNome("a avaliar");
+                    }
+                    else if(var.getStatus() == 1)
+                    {
+                        var.setStatusNome("avaliado");
+                        revisoesEnviar.add(var);
+                    }
+                    else if(var.getStatus() == 2)
+                    {
+                        var.setStatusNome("impedido");
+                    }
+                    else if(var.getStatus() == 3)
+                    {
+                        var.setStatusNome("validado");
+                        revisoesEnviar.add(var);
+                    }
+                    else
+                    {
+                        var.setStatusNome("invalidado");
+                        revisoesEnviar.add(var);
+                    }
+                }
+                mv.addObject("revisoes", revisoesEnviar);
+                mv.setViewName("/lista-revisoes-trabalho");
+            }
+            else
+            {
+                mv.setViewName("redirect:/principal-avaliador");
+            }
+        }
+        else
+        {
+            mv.setViewName("redirect:/login");
+        }
+        return mv;
+    }
+
     @RequestMapping(value = {"/revisar-trabalho/{id}"}, method = RequestMethod.GET)
     public ModelAndView carregaFazerRevisao (@PathVariable(value = "id", required = true) Long id, HttpSession session)
     {
@@ -100,17 +153,13 @@ public class RevisaoController {
                 for (Revisao var : revisoes) {
                     if (var.getTrabalho().getId().equals(id))
                     {
-                        if (var.getStatus() != 0)
+                        if (var.getStatus() != 0 && var.getStatus() != 3)
                         {
                             String status;
                             mv.addObject("revisao", var);
                             if (var.getStatus() == 1)
                             {
                                 status = "avaliado";
-                            }
-                            else if (var.getStatus() == 2)
-                            {
-                                status = "impedido";
                             }
                             else if (var.getStatus() == 3)
                             {
@@ -250,7 +299,7 @@ public class RevisaoController {
                 revisao.setDescricao("");
                 Trabalho trabalho = repositoryTrabalho.getOne(id);
                 Avaliador avaliadorFinal = repositoryAvaliador.getOne(avaliador.getId());
-                revisao.setStatus(0);
+                revisao.setStatus(2);
                 revisao.setAvaliador(avaliadorFinal);
                 revisao.setTrabalho(trabalho);
                 repositoryRevisao.save(revisao);

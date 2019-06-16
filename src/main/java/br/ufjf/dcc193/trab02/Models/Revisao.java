@@ -26,6 +26,7 @@ public class Revisao {
     private Integer nota;
     private String descricao;
     private Integer status;
+    private String statusNome;
 
     public Revisao(Avaliador avaliador, Trabalho trabalho, Integer nota, String descricao, Integer status) {
         this.revisor = avaliador;
@@ -101,6 +102,15 @@ public class Revisao {
     public void setTrabalhoRevisao(Trabalho trabalhoRevisao) {
         this.trabalhoRevisao = trabalhoRevisao;
     }
+
+    public String getStatusNome() {
+        return statusNome;
+    }
+
+    public void setStatusNome(String statusNome) {
+        this.statusNome = statusNome;
+    }
+    
     
     
 }

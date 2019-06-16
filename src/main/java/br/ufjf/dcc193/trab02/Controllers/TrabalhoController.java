@@ -2,6 +2,7 @@ package br.ufjf.dcc193.trab02.Controllers;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 
 import javax.servlet.http.HttpSession;
 
@@ -16,9 +17,11 @@ import org.springframework.web.servlet.ModelAndView;
 import br.ufjf.dcc193.trab02.Models.AreaDeConhecimento;
 import br.ufjf.dcc193.trab02.Models.Avaliador;
 import br.ufjf.dcc193.trab02.Models.AvaliadorConhecimento;
+import br.ufjf.dcc193.trab02.Models.Revisao;
 import br.ufjf.dcc193.trab02.Models.Trabalho;
 import br.ufjf.dcc193.trab02.Persistence.AreaDeConhecimentoRepository;
 import br.ufjf.dcc193.trab02.Persistence.AvaliadorConhecimentoRepository;
+import br.ufjf.dcc193.trab02.Persistence.AvaliadorRepository;
 import br.ufjf.dcc193.trab02.Persistence.TrabalhoRepository;
 
 @Controller
@@ -30,6 +33,8 @@ public class TrabalhoController {
     private AreaDeConhecimentoRepository repositoryConhecimento;
     @Autowired
     private AvaliadorConhecimentoRepository repositoryAC;
+    @Autowired
+    private AvaliadorRepository repositoryAvaliador;
 
     @RequestMapping({"/lista-trabalhos"})
     public ModelAndView carregaTrabalhos (HttpSession session)
@@ -224,6 +229,136 @@ public class TrabalhoController {
                 }
                 mv.addObject("trabalhos", trabalhos);
                 mv.setViewName("/lista-trabalhos-todos");
+            }
+        }
+        else
+        {
+            mv.setViewName("redirect:/login");
+        }
+        return mv;
+    }
+
+    @RequestMapping({"/lista-trabalhos-do-conhecimento/{id}"})
+    public ModelAndView listaTrabalhosConhecimento (@PathVariable(value = "id", required = true) Long id, HttpSession session)
+    {
+        ModelAndView mv = new ModelAndView();
+        if (session.getAttribute("usuarioLogado") != null)
+        {   
+            Avaliador avaliador = (Avaliador) session.getAttribute("usuarioLogado");
+            if (avaliador.getEmail().equals("admin"))
+            {
+                mv.setViewName("redirect:/principal-adm");
+            }
+            else
+            {
+                AreaDeConhecimento trabalhoAreaDeConhecimento = repositoryConhecimento.getOne(id);
+                List<Trabalho> trabalhos = repositoryTrabalho.findByTrabalhoAreaDeConhecimento(trabalhoAreaDeConhecimento);
+                mv.addObject("trabalhos", trabalhos);
+                mv.setViewName("/lista-trabalhos-do-conhecimento");
+            }
+        }
+        else
+        {
+            mv.setViewName("redirect:/login");
+        }
+        return mv;
+    }
+
+    @RequestMapping({"/lista-trabalhos-do-conhecimento-adm/{id}"})
+    public ModelAndView listaTrabalhosConhecimentoAdm (@PathVariable(value = "id", required = true) Long id, HttpSession session)
+    {
+        ModelAndView mv = new ModelAndView();
+        if (session.getAttribute("usuarioLogado") != null)
+        {   
+            Avaliador avaliador = (Avaliador) session.getAttribute("usuarioLogado");
+            if (avaliador.getEmail().equals("admin"))
+            {
+                AvaliadorConhecimento ac = repositoryAC.getOne(id);                
+                AreaDeConhecimento trabalhoAreaDeConhecimento = repositoryConhecimento.getOne(ac.getConhecimentoId());
+                List<Trabalho> trabalhos = repositoryTrabalho.findByTrabalhoAreaDeConhecimento(trabalhoAreaDeConhecimento);
+                mv.addObject("trabalhos", trabalhos);
+                mv.setViewName("/lista-trabalhos-do-conhecimento-adm");
+            }
+            else
+            {
+                mv.setViewName("redirect:/principal-avaliador");
+            }
+        }
+        else
+        {
+            mv.setViewName("redirect:/login");
+        }
+        return mv;
+    }
+
+    @RequestMapping({"/lista-trabalhos-do-conhecimento-adm2/{id}"})
+    public ModelAndView listaTrabalhosConhecimentoAdm2(@PathVariable(value = "id", required = true) Long id, HttpSession session)
+    {
+        ModelAndView mv = new ModelAndView();
+        if (session.getAttribute("usuarioLogado") != null)
+        {   
+            Avaliador avaliador = (Avaliador) session.getAttribute("usuarioLogado");
+            if (avaliador.getEmail().equals("admin"))
+            {
+                AreaDeConhecimento trabalhoAreaDeConhecimento = repositoryConhecimento.getOne(id);
+                List<Trabalho> trabalhos = repositoryTrabalho.findByTrabalhoAreaDeConhecimento(trabalhoAreaDeConhecimento);
+                mv.addObject("trabalhos", trabalhos);
+                mv.setViewName("/lista-trabalhos-do-conhecimento-adm");
+            }
+            else
+            {
+                mv.setViewName("redirect:/principal-avaliador");
+            }
+        }
+        else
+        {
+            mv.setViewName("redirect:/login");
+        }
+        return mv;
+    }
+
+    @RequestMapping({"/lista-trabalhos-avaliados"})
+    public ModelAndView listaTrabalhosAvaliados (HttpSession session)
+    {
+        ModelAndView mv = new ModelAndView();
+        if (session.getAttribute("usuarioLogado") != null)
+        {   
+            Avaliador avaliador = (Avaliador) session.getAttribute("usuarioLogado");
+            if (avaliador.getEmail().equals("admin"))
+            {
+                mv.setViewName("redirect:/principal-adm");
+            }
+            else
+            {
+                List<Revisao> revisoesEnviar = new ArrayList<>();
+                Set<Revisao> revisoes = repositoryAvaliador.getOne(avaliador.getId()).getRevisoes();
+                for (Revisao var : revisoes) {
+                    if (var.getStatus() == 0)
+                    {
+                        var.setStatusNome("a avaliar");
+                    }
+                    else if(var.getStatus() == 1)
+                    {
+                        var.setStatusNome("avaliado");
+                        revisoesEnviar.add(var);
+                    }
+                    else if(var.getStatus() == 2)
+                    {
+                        var.setStatusNome("impedido");
+                    }
+                    else if(var.getStatus() == 3)
+                    {
+                        var.setStatusNome("validado");
+                        revisoesEnviar.add(var);
+                    }
+                    else
+                    {
+                        var.setStatusNome("invalidado");
+                        revisoesEnviar.add(var);
+                    }
+                }
+                mv.addObject("revisoes", revisoesEnviar);
+                mv.setViewName("/lista-trabalhos-avaliados");
             }
         }
         else

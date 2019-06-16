@@ -31,7 +31,7 @@
     </div>
 
     <div class="pricing-header px-3 py-3 pt-md-5 pb-md-4 mx-auto text-center">
-        <h1 class="display-4">Lista de áreas de conhecimento</h1>
+        <h1 class="display-4">Lista de trabalhos da área de conhecimento</h1>
     </div>
 
     <div class="container">
@@ -39,20 +39,22 @@
         <thead>
           <tr>
               <tr> 
-                  <th scope="col">Nome</th>
-                  <th scope="col">Lista trabalhos</th>
-                  <th scope="col">Excluir</th>
+                  <th scope="col">Nota</th>
+                  <th scope="col">Descrição</th>
+                  <th scope="col">Status</th>
+                  <th scope="col">Revisor</th>
+                  <th scope="col>">Mudar status</th>
               </tr>
           </tr>
         </thead>
         <tbody>
-            <tr th:each="conhecimento: ${conhecimentos}" th:object="${conhecimento}">
-                <td th:text="*{nome}"></td>
+            <tr th:each="revisao: ${revisoes}" th:object="${revisao}">
+                <td th:text="*{nota}"></td>
+                <td th:text="*{descricao}"></td>
+                <td th:text="*{statusNome}"></td>
+                <td th:text="*{revisor.nome}"></td>
                 <td>
-                    <a th:href="@{/lista-trabalhos-do-conhecimento-adm/{id}/(id=*{id})}" ><i class="material-icons">&#xe241;</i></a>
-                </td>
-                <td>
-                  <a th:href="@{/excluir-area-conhecimento-avaliador/{id}/(id=*{id})}" ><i class="material-icons">&#xe872;</i></a>
+                    <a th:href="@{/mudar-status-revisao/{id}/(id=*{id})}" ><i class="material-icons">&#xe241;</i></a>
                 </td>
             </tr>
         </tbody>

@@ -42,6 +42,7 @@
               <tr> 
                   <th scope="col">Nome</th>
                   <th scope="col">Opções</th>
+                  <th scope="col">Trabalhos</th>
               </tr>
           </tr>
         </thead>
@@ -51,6 +52,9 @@
                 <td>
                     <a th:href="@{/editar-area-conhecimento/{id}/(id=*{id})}" ><i class="material-icons">&#xe254;</i></a>
                     <a th:href="@{/excluir-area-conhecimento/{id}/(id=*{id})}" ><i class="material-icons">&#xe872;</i></a>
+                </td>
+                <td>
+                    <a th:href="@{/lista-trabalhos-do-conhecimento-adm2/{id}/(id=*{id})}" ><i class="material-icons">&#xe241;</i></a>
                 </td>  
             </tr>
         </tbody>
