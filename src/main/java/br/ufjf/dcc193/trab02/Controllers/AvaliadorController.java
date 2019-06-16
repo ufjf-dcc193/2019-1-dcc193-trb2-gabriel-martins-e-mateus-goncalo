@@ -84,7 +84,6 @@ public class AvaliadorController {
     public ModelAndView realizaCadastro (Avaliador avaliador, HttpSession session)
     {
         ModelAndView mv = new ModelAndView();
-        Avaliador avaliadorCarregar = new Avaliador();
         if (session.getAttribute("usuarioLogado") != null)
         {
             Avaliador avaliadorF = (Avaliador) session.getAttribute("usuarioLogado");

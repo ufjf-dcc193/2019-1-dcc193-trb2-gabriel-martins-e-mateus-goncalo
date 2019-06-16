@@ -77,5 +77,30 @@ public class Revisao {
     public void setStatus(Integer status) {
         this.status = status;
     }
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public Avaliador getRevisor() {
+        return revisor;
+    }
+
+    public void setRevisor(Avaliador revisor) {
+        this.revisor = revisor;
+    }
+
+    public Trabalho getTrabalhoRevisao() {
+        return trabalhoRevisao;
+    }
+
+    public void setTrabalhoRevisao(Trabalho trabalhoRevisao) {
+        this.trabalhoRevisao = trabalhoRevisao;
+    }
+    
     
 }

@@ -35,7 +35,9 @@ public class LoginController {
         }
         else
         {
-            mv.setViewName("redirect:/login");
+            Avaliador avaliador = new Avaliador();
+            mv.addObject("avaliador", avaliador);
+            mv.setViewName("login");
         }
         return mv;
     }
