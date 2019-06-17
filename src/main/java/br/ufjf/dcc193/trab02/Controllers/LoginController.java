@@ -26,11 +26,11 @@ public class LoginController {
             Avaliador avaliador = (Avaliador) session.getAttribute("usuarioLogado");
             if (avaliador.getEmail().equals("admin"))
             {
-                mv.setViewName("redirect:/principal-adm");
+                mv.setViewName("redirect:principal-adm");
             }
             else
             {
-                mv.setViewName("redirect:/principal-avaliador");
+                mv.setViewName("redirect:principal-avaliador");
             }
         }
         else
@@ -53,16 +53,16 @@ public class LoginController {
             mv.addObject("avaliador", av);
             if (av.getEmail().equals("admin"))
             {
-                mv.setViewName("redirect:/principal-adm");
+                mv.setViewName("redirect:principal-adm");
             }
             else
             {
-                mv.setViewName("redirect:/principal-avaliador");
+                mv.setViewName("redirect:principal-avaliador");
             }
         }
         else
         {
-            mv.setViewName("redirect:/login");
+            mv.setViewName("redirect:login");
         }
         return mv;
     }
@@ -72,7 +72,7 @@ public class LoginController {
     {
         ModelAndView mv = new ModelAndView();
         session.setAttribute("usuarioLogado", null);
-        mv.setViewName("redirect:/index");
+        mv.setViewName("redirect:index");
         return mv;
     }
         
