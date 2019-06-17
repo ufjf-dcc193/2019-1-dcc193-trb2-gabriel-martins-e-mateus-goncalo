@@ -47,16 +47,16 @@ public class TrabalhoController {
             {
                 List<Trabalho> trabalhos = repositoryTrabalho.findAll();
                 mv.addObject("trabalhos", trabalhos);
-                mv.setViewName("/lista-trabalhos");
+                mv.setViewName("lista-trabalhos");
             }
             else
             {
-                mv.setViewName("redirect:/principal-avaliador");
+                mv.setViewName("redirect:principal-avaliador");
             }
         }
         else
         {
-            mv.setViewName("redirect:/login");
+            mv.setViewName("redirect:login");
         }
         return mv;
     }
@@ -74,16 +74,16 @@ public class TrabalhoController {
                 List<AreaDeConhecimento> conhecimentos = repositoryConhecimento.findAll();
                 mv.addObject("conhecimentos", conhecimentos);
                 mv.addObject("trabalho", trabalho);
-                mv.setViewName("/cadastro-trabalho");
+                mv.setViewName("cadastro-trabalho");
             }
             else
             {
-                mv.setViewName("redirect:/principal-avaliador");
+                mv.setViewName("redirect:principal-avaliador");
             }
         }
         else
         {
-            mv.setViewName("redirect:/login");
+            mv.setViewName("redirect:login");
         }
         return mv;
     }
@@ -100,22 +100,22 @@ public class TrabalhoController {
                 if (trabalho != null)
                 {
                     repositoryTrabalho.save(trabalho);
-                    mv.setViewName("redirect:/lista-trabalhos");
+                    mv.setViewName("redirect:lista-trabalhos");
                 }
                 else
                 {
                     mv.addObject("trabalho", trabalho);
-                    mv.setViewName("redirect:/cadastro-trabalho");
+                    mv.setViewName("redirect:cadastro-trabalho");
                 }
             }
             else
             {
-                mv.setViewName("redirect:/principal-avaliador");
+                mv.setViewName("redirect:principal-avaliador");
             }
         }
         else
         {
-            mv.setViewName("redirect:/login");
+            mv.setViewName("redirect:login");
         }            
         return mv;
     }    
@@ -135,16 +135,16 @@ public class TrabalhoController {
                 mv.addObject("conhecimentos", conhecimentos);
                 mv.addObject("trabalho", trabalho);
                 mv.addObject("id", id);
-                mv.setViewName("/editar-trabalho");
+                mv.setViewName("editar-trabalho");
             }
             else
             {
-                mv.setViewName("redirect:/principal-avaliador");
+                mv.setViewName("redirect:principal-avaliador");
             }
         }
         else
         {
-            mv.setViewName("redirect:/login");
+            mv.setViewName("redirect:login");
         }
         return mv;
     }
@@ -162,22 +162,22 @@ public class TrabalhoController {
                 {
                     trabalho.setId(id);
                     repositoryTrabalho.save(trabalho);
-                    mv.setViewName("redirect:/lista-trabalhos");
+                    mv.setViewName("redirect:lista-trabalhos");
                 }
                 else
                 {
                     mv.addObject("trabalho", trabalho);
-                    mv.setViewName("/editar-trabalho");
+                    mv.setViewName("editar-trabalho");
                 }
             }
             else
             {
-                mv.setViewName("redirect:/principal-avaliador");
+                mv.setViewName("redirect:principal-avaliador");
             }
         }
         else
         {
-            mv.setViewName("redirect:/login");
+            mv.setViewName("redirect:login");
         }            
         return mv;
     }     
@@ -191,16 +191,16 @@ public class TrabalhoController {
             if (avaliador.getEmail().equals("admin"))
             {
                 repositoryTrabalho.deleteById(id);
-                mv.setViewName("redirect:/lista-trabalhos");
+                mv.setViewName("redirect:lista-trabalhos");
             }
             else
             {
-                mv.setViewName("redirect:/principal-adm");
+                mv.setViewName("redirect:principal-adm");
             }
         }
         else
         {
-            mv.setViewName("redirect:/login");
+            mv.setViewName("redirect:login");
         }
         return mv;    
     }
@@ -214,7 +214,7 @@ public class TrabalhoController {
             Avaliador avaliador = (Avaliador) session.getAttribute("usuarioLogado");
             if (avaliador.getEmail().equals("admin"))
             {
-                mv.setViewName("redirect:/index");
+                mv.setViewName("redirect:index");
             }
             else
             {
@@ -228,12 +228,12 @@ public class TrabalhoController {
                     }
                 }
                 mv.addObject("trabalhos", trabalhos);
-                mv.setViewName("/lista-trabalhos-todos");
+                mv.setViewName("lista-trabalhos-todos");
             }
         }
         else
         {
-            mv.setViewName("redirect:/login");
+            mv.setViewName("redirect:login");
         }
         return mv;
     }
@@ -247,19 +247,19 @@ public class TrabalhoController {
             Avaliador avaliador = (Avaliador) session.getAttribute("usuarioLogado");
             if (avaliador.getEmail().equals("admin"))
             {
-                mv.setViewName("redirect:/principal-adm");
+                mv.setViewName("redirect:principal-adm");
             }
             else
             {
                 AreaDeConhecimento trabalhoAreaDeConhecimento = repositoryConhecimento.getOne(id);
                 List<Trabalho> trabalhos = repositoryTrabalho.findByTrabalhoAreaDeConhecimento(trabalhoAreaDeConhecimento);
                 mv.addObject("trabalhos", trabalhos);
-                mv.setViewName("/lista-trabalhos-do-conhecimento");
+                mv.setViewName("lista-trabalhos-do-conhecimento");
             }
         }
         else
         {
-            mv.setViewName("redirect:/login");
+            mv.setViewName("redirect:login");
         }
         return mv;
     }
@@ -277,16 +277,16 @@ public class TrabalhoController {
                 AreaDeConhecimento trabalhoAreaDeConhecimento = repositoryConhecimento.getOne(ac.getConhecimentoId());
                 List<Trabalho> trabalhos = repositoryTrabalho.findByTrabalhoAreaDeConhecimento(trabalhoAreaDeConhecimento);
                 mv.addObject("trabalhos", trabalhos);
-                mv.setViewName("/lista-trabalhos-do-conhecimento-adm");
+                mv.setViewName("lista-trabalhos-do-conhecimento-adm");
             }
             else
             {
-                mv.setViewName("redirect:/principal-avaliador");
+                mv.setViewName("redirect:principal-avaliador");
             }
         }
         else
         {
-            mv.setViewName("redirect:/login");
+            mv.setViewName("redirect:login");
         }
         return mv;
     }
@@ -303,16 +303,16 @@ public class TrabalhoController {
                 AreaDeConhecimento trabalhoAreaDeConhecimento = repositoryConhecimento.getOne(id);
                 List<Trabalho> trabalhos = repositoryTrabalho.findByTrabalhoAreaDeConhecimento(trabalhoAreaDeConhecimento);
                 mv.addObject("trabalhos", trabalhos);
-                mv.setViewName("/lista-trabalhos-do-conhecimento-adm");
+                mv.setViewName("lista-trabalhos-do-conhecimento-adm");
             }
             else
             {
-                mv.setViewName("redirect:/principal-avaliador");
+                mv.setViewName("redirect:principal-avaliador");
             }
         }
         else
         {
-            mv.setViewName("redirect:/login");
+            mv.setViewName("redirect:login");
         }
         return mv;
     }
@@ -326,7 +326,7 @@ public class TrabalhoController {
             Avaliador avaliador = (Avaliador) session.getAttribute("usuarioLogado");
             if (avaliador.getEmail().equals("admin"))
             {
-                mv.setViewName("redirect:/principal-adm");
+                mv.setViewName("redirect:principal-adm");
             }
             else
             {
@@ -358,12 +358,12 @@ public class TrabalhoController {
                     }
                 }
                 mv.addObject("revisoes", revisoesEnviar);
-                mv.setViewName("/lista-trabalhos-avaliados");
+                mv.setViewName("lista-trabalhos-avaliados");
             }
         }
         else
         {
-            mv.setViewName("redirect:/login");
+            mv.setViewName("redirect:login");
         }
         return mv;
     }

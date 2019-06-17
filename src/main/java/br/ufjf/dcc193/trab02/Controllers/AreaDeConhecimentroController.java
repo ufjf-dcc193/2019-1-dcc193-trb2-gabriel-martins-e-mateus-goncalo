@@ -37,16 +37,16 @@ public class AreaDeConhecimentroController {
             {
                 List<AreaDeConhecimento> conhecimentos = repositoryConhecimentos.findAll();
                 mv.addObject("conhecimentos", conhecimentos);
-                mv.setViewName("/lista-areasconhecimento");
+                mv.setViewName("lista-areasconhecimento");
             }
             else
             {
-                mv.setViewName("redirect:/principal-adm");
+                mv.setViewName("redirect:principal-adm");
             }
         }
         else
         {
-            mv.setViewName("redirect:/login");
+            mv.setViewName("redirect:login");
         }
         return mv;
     }
@@ -62,16 +62,16 @@ public class AreaDeConhecimentroController {
             {
                 AreaDeConhecimento conhecimento = new AreaDeConhecimento();
                 mv.addObject("conhecimento", conhecimento);
-                mv.setViewName("/cadastro-conhecimento");
+                mv.setViewName("cadastro-conhecimento");
             }
             else
             {
-                mv.setViewName("redirect:/principal-adm");
+                mv.setViewName("redirect:principal-adm");
             }
         }
         else
         {
-            mv.setViewName("redirect:/login");
+            mv.setViewName("redirect:login");
         }
         return mv;
     }
@@ -89,22 +89,22 @@ public class AreaDeConhecimentroController {
                 if (area == null)
                 {
                     repositoryConhecimentos.save(conhecimento);
-                    mv.setViewName("redirect:/lista-conhecimentos");
+                    mv.setViewName("redirect:lista-conhecimentos");
                 }
                 else
                 {
                     mv.addObject("conhecimento", area);
-                    mv.setViewName("redirect:/cadastro-conhecimento");
+                    mv.setViewName("redirect:cadastro-conhecimento");
                 }
             }
             else
             {
-                mv.setViewName("redirect:/principal-adm");
+                mv.setViewName("redirect:principal-adm");
             }
         }
         else
         {
-            mv.setViewName("redirect:/login");
+            mv.setViewName("redirect:login");
         }
         return mv; 
     }
@@ -120,16 +120,16 @@ public class AreaDeConhecimentroController {
             {
                 AreaDeConhecimento conhecimento = repositoryConhecimentos.getOne(id);
                 mv.addObject("conhecimento", conhecimento);
-                mv.setViewName("/editar-conhecimento");
+                mv.setViewName("editar-conhecimento");
             }
             else
             {
-                mv.setViewName("redirect:/principal-adm");
+                mv.setViewName("redirect:principal-adm");
             }
         }
         else
         {
-            mv.setViewName("redirect:/login");
+            mv.setViewName("redirect:login");
         }
         return mv;
     }
@@ -151,28 +151,28 @@ public class AreaDeConhecimentroController {
                     {
                         conhecimento.setId(id);
                         repositoryConhecimentos.save(conhecimento);
-                        mv.setViewName("redirect:/lista-conhecimentos");
+                        mv.setViewName("redirect:lista-conhecimentos");
                     }
                     else
                     {
                         mv.addObject("conhecimento", area);
-                        mv.setViewName("/editar-conhecimento");
+                        mv.setViewName("editar-conhecimento");
                     }      
                 }
                 else
                 {
                     mv.addObject("conhecimento", area);
-                    mv.setViewName("redirect:/cadastro-conhecimento");
+                    mv.setViewName("redirect:cadastro-conhecimento");
                 }
             }
             else
             {
-                mv.setViewName("redirect:/principal-adm");
+                mv.setViewName("redirect:principal-adm");
             }
         }
         else
         {
-            mv.setViewName("redirect:/login");
+            mv.setViewName("redirect:login");
         }
         return mv;
     }
@@ -193,17 +193,17 @@ public class AreaDeConhecimentroController {
                         repositoryAvaliadorConhecimento.deleteById(var.getId());
                     }
                 }
-                mv.setViewName("redirect:/lista-conhecimentos");
+                mv.setViewName("redirect:lista-conhecimentos");
             }
             else
             {
                 mv.addObject("avaliador", avaliador);
-                mv.setViewName("redirect:/principal-adm");
+                mv.setViewName("redirect:principal-adm");
             }
         }
         else
         {
-            mv.setViewName("redirect:/login");
+            mv.setViewName("redirect:login");
         }
         return mv;    
     }

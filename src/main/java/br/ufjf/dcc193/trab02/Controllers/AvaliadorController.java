@@ -41,16 +41,16 @@ public class AvaliadorController {
             {
                 List<Avaliador> avaliadores = repositoryAvaliador.findAll();
                 mv.addObject("avaliadores", avaliadores);
-                mv.setViewName("/lista-avaliadores");
+                mv.setViewName("lista-avaliadores");
             }
             else
             {
-                mv.setViewName("redirect:/principal-adm");
+                mv.setViewName("redirect:principal-adm");
             }
         }
         else
         {
-            mv.setViewName("redirect:/login");
+            mv.setViewName("redirect:login");
         }
         return mv;
     }
@@ -66,16 +66,16 @@ public class AvaliadorController {
             {
                 Avaliador avaliadorCarregar = new Avaliador();
                 mv.addObject("avaliador", avaliadorCarregar);
-                mv.setViewName("/cadastro-avaliador");
+                mv.setViewName("cadastro-avaliador");
             }
             else
             {
-                mv.setViewName("redirect:/principal-avaliador");
+                mv.setViewName("redirect:principal-avaliador");
             }
         }
         else
         {
-            mv.setViewName("redirect:/login");
+            mv.setViewName("redirect:login");
         }
         return mv;
     }
@@ -93,22 +93,22 @@ public class AvaliadorController {
                 if (av == null)
                 {
                     repositoryAvaliador.save(avaliador);
-                    mv.setViewName("redirect:/lista-avaliadores");
+                    mv.setViewName("redirect:lista-avaliadores");
                 }
                 else
                 {
                     mv.addObject("avaliador", avaliador);
-                    mv.setViewName("redirect:/cadastro-avaliador");
+                    mv.setViewName("redirect:cadastro-avaliador");
                 }
             }
             else
             {
-                mv.setViewName("redirect:/principal-avaliador");    
+                mv.setViewName("redirect:principal-avaliador");    
             }            
         }
         else
         {
-            mv.setViewName("redirect:/login");
+            mv.setViewName("redirect:login");
         }
         return mv;
     }
@@ -130,16 +130,16 @@ public class AvaliadorController {
                 AreaDeConhecimento conhecimento2 = new AreaDeConhecimento();
                 mv.addObject("conhe", conhecimento2);
                 mv.addObject("id", id);
-                mv.setViewName("/cadastro-area-conhecimento-avaliador");
+                mv.setViewName("cadastro-area-conhecimento-avaliador");
             }
             else
             {
-                mv.setViewName("redirect:/principal-avaliador");
+                mv.setViewName("redirect:principal-avaliador");
             }
         }
         else
         {
-            mv.setViewName("redirect:/login");
+            mv.setViewName("redirect:login");
         }
         return mv;
     }
@@ -167,7 +167,7 @@ public class AvaliadorController {
                         acFinal.setNome(q.getNome());
                         repositoryAC.save(acFinal);
                     }
-                    mv.setViewName("redirect:/lista-avaliadores");
+                    mv.setViewName("redirect:lista-avaliadores");
                 }
                 else
                 {
@@ -176,17 +176,17 @@ public class AvaliadorController {
                     AreaDeConhecimento conhecimento2 = new AreaDeConhecimento();
                     mv.addObject("conhecimento", conhecimento2);
                     mv.addObject("id", id);
-                    mv.setViewName("/cadastro-area-conhecimento-avaliador");
+                    mv.setViewName("cadastro-area-conhecimento-avaliador");
                 }
             }
             else
             {
-                mv.setViewName("redirect:/principal-avaliador");
+                mv.setViewName("redirect:principal-avaliador");
             }
         }
         else
         {
-            mv.setViewName("redirect:/login");
+            mv.setViewName("redirect:login");
         }
         return mv;
     }
@@ -210,17 +210,17 @@ public class AvaliadorController {
                 }
                 mv.addObject("conhecimentos", conhecimentos);
                 mv.addObject("id", id);
-                mv.setViewName("/lista-area-conhecimento-avaliador");
+                mv.setViewName("lista-area-conhecimento-avaliador");
             }
             else
             {
                 mv.addObject("avaliador", avaliador);
-                mv.setViewName("redirect:/principal-avaliador");
+                mv.setViewName("redirect:principal-avaliador");
             }
         }
         else
         {
-            mv.setViewName("redirect:/login");
+            mv.setViewName("redirect:login");
         }
         return mv;
     }
@@ -234,16 +234,16 @@ public class AvaliadorController {
             if (avaliador.getEmail().equals("admin"))
             {
                 repositoryAC.deleteById(id);
-                mv.setViewName("redirect:/lista-avaliadores");
+                mv.setViewName("redirect:lista-avaliadores");
             }
             else
             {
-                mv.setViewName("redirect:/principal-adm");
+                mv.setViewName("redirect:principal-adm");
             }
         }
         else
         {
-            mv.setViewName("redirect:/login");
+            mv.setViewName("redirect:login");
         }
         return mv;    
     }
@@ -261,16 +261,16 @@ public class AvaliadorController {
                 avaliadorCarregar = repositoryAvaliador.getOne(id);
                 mv.addObject("avaliador", avaliadorCarregar);
                 mv.addObject("id", id);
-                mv.setViewName("/cadastro-avaliador");
+                mv.setViewName("cadastro-avaliador");
             }
             else
             {
-                mv.setViewName("redirect:/principal-avaliador");
+                mv.setViewName("redirect:principal-avaliador");
             }
         }
         else
         {
-            mv.setViewName("redirect:/login");
+            mv.setViewName("redirect:login");
         }
         return mv;
     }
@@ -289,22 +289,22 @@ public class AvaliadorController {
                 {
                     avaliador.setId(id);
                     repositoryAvaliador.save(avaliador);
-                    mv.setViewName("redirect:/lista-avaliadores");
+                    mv.setViewName("redirect:lista-avaliadores");
                 }
                 else
                 {
                     mv.addObject("avaliador", avaliador);
-                    mv.setViewName("/editar-avaliador");
+                    mv.setViewName("editar-avaliador");
                 }
             }
             else
             {
-                mv.setViewName("redirect:/principal-avaliador");    
+                mv.setViewName("redirect:principal-avaliador");    
             }            
         }
         else
         {
-            mv.setViewName("redirect:/login");
+            mv.setViewName("redirect:login");
         }
         return mv;
     }
@@ -318,16 +318,16 @@ public class AvaliadorController {
             if (avaliador.getEmail().equals("admin"))
             {
                 repositoryAvaliador.deleteById(id);
-                mv.setViewName("redirect:/lista-avaliadores");
+                mv.setViewName("redirect:lista-avaliadores");
             }
             else
             {
-                mv.setViewName("redirect:/principal-adm");
+                mv.setViewName("redirect:principal-adm");
             }
         }
         else
         {
-            mv.setViewName("redirect:/login");
+            mv.setViewName("redirect:login");
         }
         return mv;    
     }
@@ -341,7 +341,7 @@ public class AvaliadorController {
             Avaliador avaliador = (Avaliador) session.getAttribute("usuarioLogado");
             if (avaliador.getEmail().equals("admin"))
             {
-                mv.setViewName("redirect:/index");
+                mv.setViewName("redirect:index");
             }
             else
             {
@@ -353,12 +353,12 @@ public class AvaliadorController {
                 }
                 mv.addObject("conhecimentos", conhecimentos);
                 mv.addObject("avaliador", avaliador);
-                mv.setViewName("/lista-conhecimentos-avaliador");
+                mv.setViewName("lista-conhecimentos-avaliador");
             }
         }
         else
         {
-            mv.setViewName("redirect:/login");
+            mv.setViewName("redirect:login");
         }
         return mv;
     }

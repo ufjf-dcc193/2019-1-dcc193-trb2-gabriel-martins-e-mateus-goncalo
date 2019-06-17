@@ -63,16 +63,16 @@ public class RevisaoController {
                     }
                 }
                 mv.addObject("revisoes", revisoesEnviar);
-                mv.setViewName("/lista-revisoes");
+                mv.setViewName("lista-revisoes");
             }
             else
             {
-                mv.setViewName("redirect:/principal-avaliador");
+                mv.setViewName("redirect:principal-avaliador");
             }
         }
         else
         {
-            mv.setViewName("redirect:/login");
+            mv.setViewName("redirect:login");
         }
         return mv;
     }
@@ -86,19 +86,19 @@ public class RevisaoController {
             Avaliador avaliador = (Avaliador) session.getAttribute("usuarioLogado");
             if (avaliador.getEmail().equals("admin"))
             {
-                mv.setViewName("redirect:/principal-adm");
+                mv.setViewName("redirect:principal-adm");
             }
             else
             {
                 Avaliador revisor = repositoryAvaliador.getOne(avaliador.getId());
                 Set<Revisao> revisoes = revisor.getRevisoes();
                 mv.addObject("revisoes", revisoes);
-                mv.setViewName("/lista-revisoes-avaliador");
+                mv.setViewName("lista-revisoes-avaliador");
             }
         }
         else
         {
-            mv.setViewName("redirect:/login");
+            mv.setViewName("redirect:login");
         }
         return mv;
     }
@@ -133,16 +133,16 @@ public class RevisaoController {
                     }
                 }
                 mv.addObject("revisoes", revisoesEnviar);
-                mv.setViewName("/lista-revisoes-trabalho");
+                mv.setViewName("lista-revisoes-trabalho");
             }
             else
             {
-                mv.setViewName("redirect:/principal-avaliador");
+                mv.setViewName("redirect:principal-avaliador");
             }
         }
         else
         {
-            mv.setViewName("redirect:/login");
+            mv.setViewName("redirect:login");
         }
         return mv;
     }
@@ -167,16 +167,16 @@ public class RevisaoController {
                     }
                 }
                 mv.addObject("revisoes", revisoesEnviar);
-                mv.setViewName("/lista-revisoes-trabalho");
+                mv.setViewName("lista-revisoes-trabalho");
             }
             else
             {
-                mv.setViewName("redirect:/principal-avaliador");
+                mv.setViewName("redirect:principal-avaliador");
             }
         }
         else
         {
-            mv.setViewName("redirect:/login");
+            mv.setViewName("redirect:login");
         }
         return mv;
     }
@@ -190,7 +190,7 @@ public class RevisaoController {
             Avaliador avaliador = (Avaliador) session.getAttribute("usuarioLogado");
             if (avaliador.getEmail().equals("admin"))
             {
-                mv.setViewName("redirect:/principal-adm");
+                mv.setViewName("redirect:principal-adm");
             }
             else
             {
@@ -217,7 +217,7 @@ public class RevisaoController {
                                 status = "invalidado";
                             }
                             mv.addObject("status", status);
-                            mv.setViewName("/trabalho-ja-corrigido");
+                            mv.setViewName("trabalho-ja-corrigido");
                             return mv;
                         }
                         else
@@ -229,12 +229,12 @@ public class RevisaoController {
                 mv.addObject("trabalho", trabalho);
                 mv.addObject("idtrabalho", trabalho.getId());
                 mv.addObject("revisao", revisao);
-                mv.setViewName("/revisar-trabalho-avaliador");
+                mv.setViewName("revisar-trabalho-avaliador");
             }
         }
         else
         {
-            mv.setViewName("redirect:/login");
+            mv.setViewName("redirect:login");
         }
         return mv;
     }
@@ -249,7 +249,7 @@ public class RevisaoController {
             Avaliador avaliador = (Avaliador) session.getAttribute("usuarioLogado");
             if (avaliador.getEmail().equals("admin"))
             {
-                mv.setViewName("redirect:/principal-adm");
+                mv.setViewName("redirect:principal-adm");
             }
             else
             {
@@ -271,12 +271,12 @@ public class RevisaoController {
                     repositoryAvaliador.save(avaliadorFinal);
                     repositoryTrabalho.save(trabalho);
                 }
-                mv.setViewName("redirect:/lista-trabalhos-todos");
+                mv.setViewName("redirect:lista-trabalhos-todos");
             }
         }
         else
         {
-            mv.setViewName("redirect:/login");
+            mv.setViewName("redirect:login");
         }
         return mv;
     }
@@ -291,7 +291,7 @@ public class RevisaoController {
             Avaliador avaliador = (Avaliador) session.getAttribute("usuarioLogado");
             if (avaliador.getEmail().equals("admin"))
             {
-                mv.setViewName("redirect:/principal-adm");
+                mv.setViewName("redirect:principal-adm");
             }
             else
             {
@@ -313,12 +313,12 @@ public class RevisaoController {
                     repositoryAvaliador.save(avaliadorFinal);
                     repositoryTrabalho.save(trabalho);
                 }
-                mv.setViewName("redirect:/lista-trabalhos-todos");
+                mv.setViewName("redirect:lista-trabalhos-todos");
             }
         }
         else
         {
-            mv.setViewName("redirect:/login");
+            mv.setViewName("redirect:login");
         }
         return mv;
     }
@@ -333,7 +333,7 @@ public class RevisaoController {
             Avaliador avaliador = (Avaliador) session.getAttribute("usuarioLogado");
             if (avaliador.getEmail().equals("admin"))
             {
-                mv.setViewName("redirect:/principal-adm");
+                mv.setViewName("redirect:principal-adm");
             }
             else
             {
@@ -357,11 +357,11 @@ public class RevisaoController {
                     repositoryAvaliador.save(avaliadorFinal);
                     repositoryTrabalho.save(trabalho);
                 }
-                mv.setViewName("redirect:/lista-trabalhos-todos");            }
+                mv.setViewName("redirect:lista-trabalhos-todos");            }
         }
         else
         {
-            mv.setViewName("redirect:/login");
+            mv.setViewName("redirect:login");
         }
         return mv;
     }
@@ -392,16 +392,16 @@ public class RevisaoController {
                 mv.addObject("statusatual", revisao.getStatusNome());
                 mv.addObject("revisao", revisao);
                 mv.addObject("id", revisao.getId());
-                mv.setViewName("/mudar-status-revisao");
+                mv.setViewName("mudar-status-revisao");
             }
             else
             {
-                mv.setViewName("redirect:/principal-avaliador");
+                mv.setViewName("redirect:principal-avaliador");
             }
         }
         else
         {
-            mv.setViewName("redirect:/login");
+            mv.setViewName("redirect:login");
         }
         return mv;
     }
@@ -419,16 +419,16 @@ public class RevisaoController {
                 Revisao revisao = repositoryRevisao.getOne(id);
                 revisao.setStatus(statusNovo);
                 repositoryRevisao.save(revisao);
-                mv.setViewName("redirect:/lista-revisoes");
+                mv.setViewName("redirect:lista-revisoes");
             }
             else
             {
-                mv.setViewName("redirect:/principal-avaliador");                
+                mv.setViewName("redirect:principal-avaliador");                
             }
         }
         else
         {
-            mv.setViewName("redirect:/login");
+            mv.setViewName("redirect:login");
         } 
         return mv;
     }
