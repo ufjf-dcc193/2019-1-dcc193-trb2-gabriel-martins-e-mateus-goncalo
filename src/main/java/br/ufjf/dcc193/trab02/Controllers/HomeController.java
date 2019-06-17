@@ -27,7 +27,7 @@ public class HomeController {
         }
         else
         {
-            return "/index";
+            return "index";
         }
     }
 
