@@ -1,5 +1,7 @@
 package br.ufjf.dcc193.trab02;
 
+import java.util.List;
+
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.ConfigurableApplicationContext;
@@ -13,12 +15,15 @@ public class MainApplication {
 	public static void main(String[] args) {
 		ConfigurableApplicationContext ctx = SpringApplication.run(MainApplication.class, args);
 		AvaliadorRepository repAvaliador = ctx.getBean(AvaliadorRepository.class);
-		Avaliador avaliador = repAvaliador.getOne(1L);
-			avaliador = new Avaliador();
+		List<Avaliador> avaliadores = repAvaliador.findAll();
+		if (avaliadores.size() == 0)
+		{
+			Avaliador avaliador = new Avaliador();
 			avaliador.setEmail("admin");
 			avaliador.setChave("admin");
 			avaliador.setNome("admin");
 			repAvaliador.save(avaliador);
+		}
 	}
 
 }

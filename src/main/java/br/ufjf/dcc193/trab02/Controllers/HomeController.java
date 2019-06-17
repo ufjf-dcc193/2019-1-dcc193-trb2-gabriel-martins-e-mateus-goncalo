@@ -10,7 +10,7 @@ import br.ufjf.dcc193.trab02.Models.Avaliador;
 @Controller
 public class HomeController {
 
-    @RequestMapping({"", "/index", "/principal-adm", "/principal-avaliador"})
+    @RequestMapping({"", "/", "/index", "/principal-adm", "/principal-avaliador"})
     public String index (HttpSession session)
     {
         if (session.getAttribute("usuarioLogado") != null)
