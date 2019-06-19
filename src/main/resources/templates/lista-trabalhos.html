@@ -44,6 +44,7 @@
                   <th scope="col">Descrição textual</th>
                   <th scope="col">URL</th>
                   <th scope="col">Área de conhecimento</th>
+                  <th scope="col">Revisões</th>
                   <th scope="col>">Opções</th>
               </tr>
           </tr>
@@ -54,6 +55,7 @@
                 <td th:text="*{descricaoTextual}"></td>
                 <td th:text="*{url}"></td>
                 <td th:text="*{trabalhoAreaDeConhecimento.nome}"></td>
+                <td th:text="*{revisoesTotal}"></td>
                 <td>
                     <a th:href="@{/editar-trabalho/{id}/(id=*{id})}" ><i class="material-icons">&#xe254;</i></a>
                     <a th:href="@{/excluir-trabalho/{id}/(id=*{id})}" ><i class="material-icons">&#xe872;</i></a>  

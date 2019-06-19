@@ -42,6 +42,11 @@ public class Trabalho {
         return titulo;
     }
 
+    public int getRevisoesTotal()
+    {
+        return revisoes.size();
+    }
+
     public void setTitulo(String titulo) {
         this.titulo = titulo;
     }
